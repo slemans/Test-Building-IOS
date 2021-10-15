@@ -8,9 +8,9 @@
 import UIKit
 
 struct Street {
-    var lable: String
+    var lable: String?
     var arrayImage: [Images?]
 }
 struct Images{
-    let image: UIImage
+    let image: UIImage?
 }

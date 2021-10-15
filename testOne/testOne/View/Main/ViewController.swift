@@ -18,9 +18,8 @@ class ViewController: UIViewController {
 //        tableView = UITableView(frame: view.bounds, style: .grouped)
         var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .red
-        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-//        tableView.sectionHeaderHeight = 40
+//        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
+        tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(StreetTableViewCell.self, forCellReuseIdentifier: "contactCell")
         return tableView
@@ -42,7 +41,6 @@ class ViewController: UIViewController {
 
     // cancel demo
 
-    var height: CGFloat = 200
     var arrayStreet: [Street] = []
 
     override func viewDidLoad() {
@@ -50,7 +48,8 @@ class ViewController: UIViewController {
         startSetting()
         tableView.dataSource = self
         tableView.delegate = self
-
+        tableView.tableFooterView = UIView()
+        
         arrayStreet.append(Street(lable: "Название локации", arrayImage: [nil]))
     }
 
@@ -66,7 +65,7 @@ class ViewController: UIViewController {
         tableView.topAnchor.constraint(equalTo: viewTop.bottomAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
 
-//        tableView = UITableView(frame: CGRect(x: view.leftAnchor, y: view.rightAnchor, width: view.frame.width, height: height))
+
     }
 
     // demo
@@ -98,7 +97,7 @@ class ViewController: UIViewController {
     // кнопка addCell
     func setupButton() {
         buttonAddCell.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25).isActive = true
-        buttonAddCell.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 40).isActive = true
+        buttonAddCell.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
     }
 
     // верхняя часть
@@ -131,11 +130,10 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        let cell = tableView.dequeueReusableCell(withIdentifier: "MyCell", for: indexPath as IndexPath)
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! StreetTableViewCell
+        cell.backgroundColor = .red
         let street = arrayStreet[indexPath.row]
-        cell.titleLabel.text = street.lable
-//        cell.textField.text = street.lable
+        cell.textField.placeholder = street.lable
         return cell
     }
 }
