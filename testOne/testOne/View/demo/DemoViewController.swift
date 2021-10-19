@@ -7,9 +7,7 @@
 
 import UIKit
 
-protocol DelegatUpdateCollection: AnyObject {
-    func updateCollection()
-}
+
 
 
 class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
@@ -20,7 +18,6 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     var arrayStreet: [Street] = []
     var indexCellWherePutImages: Int?
 
-    weak var delegate: DelegatUpdateCollection?
 
     override func viewDidLoad() {
         super.viewDidLoad()

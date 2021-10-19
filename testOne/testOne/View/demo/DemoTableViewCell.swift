@@ -37,6 +37,8 @@ class DemoTableViewCell: UITableViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         start()
+        stackThree.layer.borderColor = #colorLiteral(red: 0.9263823628, green: 0.9255852103, blue: 0.921618104, alpha: 1)
+        stackThree.layer.borderWidth = 1
     }
 
     
@@ -65,18 +67,10 @@ class DemoTableViewCell: UITableViewCell {
         let corner: CGFloat = 20
         stackOne.layer.cornerRadius = corner
         stackOne.layer.shadowColor = #colorLiteral(red: 0.3803921569, green: 0.4156862745, blue: 0.4156862745, alpha: 1)
-        stackOne.layer.shadowRadius = 6.0
-        stackOne.layer.shadowOpacity = 0.3
-        stackOne.layer.shadowOffset = CGSize(width: 0, height: 1)
-        
-        
-        
-        
-      
-        
-//        let shadowSize: CGFloat = 20
-//        let contactRect = CGRect(x: 0, y: stackOne.bounds.height, width: stackOne.bounds.width + shadowSize, height: 10)
-//        stackOne.layer.shadowPath = UIBezierPath(ovalIn: contactRect).cgPath
+        steackTwo.layer.masksToBounds = false
+        steackTwo.layer.shadowOffset = CGSize(width: 0.0 , height: 5.0)
+        steackTwo.layer.shadowOpacity = 0.3
+        steackTwo.layer.shadowRadius = 6.0
     }
 
     // тень для кнопки Удалить
@@ -204,9 +198,3 @@ extension DemoTableViewCell: DelegatDeleteCollectionViewCell {
 }
 
 
-extension DemoTableViewCell: DelegatUpdateCollection{
-    func updateCollection() {
-        stackFive.isHidden = false
-        collectionView.reloadData()
-    }
-}
