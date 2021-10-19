@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import Firebase
 
 
 
@@ -21,6 +22,7 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(FirebaseApp.configure())
         startSetting()
 //        arrayStreet.append(Street(lable: "Название локации", arrayImage: [Images(image: #imageLiteral(resourceName: "pfoto1")), Images(image: #imageLiteral(resourceName: "pfoto3")), Images(image: #imageLiteral(resourceName: "pfoto2"))]))
         arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
@@ -37,7 +39,7 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
             DemoImagesVC.image = sender as? UIImage
         }
     }
-    func startSetting() {
+    public func startSetting() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()

@@ -30,15 +30,11 @@ class DemoTableViewCell: UITableViewCell {
     var oneIsStreet: Street?
     var indexStreet: Int!
     var arrayIndexImages: [Int] = []
-    // долгое нажатие
-
     weak var delegate: DelegatReturnTable?
     
     override func awakeFromNib() {
         super.awakeFromNib()
         start()
-        stackThree.layer.borderColor = #colorLiteral(red: 0.9263823628, green: 0.9255852103, blue: 0.921618104, alpha: 1)
-        stackThree.layer.borderWidth = 1
     }
 
     
@@ -50,15 +46,6 @@ class DemoTableViewCell: UITableViewCell {
         buttonDelete.isHidden = false
         delegate?.reloatDataBase()
         collectionView.reloadData()
-        
-//        let tachPlace = gesture.location(in: self.collectionView)
-//        if let indexPath = self.collectionView.indexPathForItem(at: tachPlace) {
-//            let cell = self.collectionView.cellForItem(at: indexPath)
-//
-//        } else {
-//            print("couldn't find index path")
-//        }
-        
     }
 
 
@@ -86,10 +73,7 @@ class DemoTableViewCell: UITableViewCell {
 
 
     @IBAction func buttonAddImages() {
-//        stackFive.isHidden = false
         delegate?.returnTableReview(index: indexStreet)
-//        collectionView.reloadData()
-        
     }
 
     @IBAction func buttonDeleteAct() {
@@ -102,7 +86,11 @@ class DemoTableViewCell: UITableViewCell {
         collectionView.reloadData()
     }
 
-    func start() {
+    public func start() {
+        stackThree.layer.borderColor = #colorLiteral(red: 0.9263823628, green: 0.9255852103, blue: 0.921618104, alpha: 1)
+        stackThree.layer.borderWidth = 1
+        
+        
         // долгое нажатие long press
         let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPressedGesture.minimumPressDuration = 1.0
@@ -132,7 +120,6 @@ extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegat
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCellDemo", for: indexPath) as! DemoCollectionViewCell
-//        let favoriteRecipe = oneIsStreet?.arrayImage[indexPath.item]
         let favoriteRecipe = oneIsStreet?.arrayImage[indexPath.row]
         cell.configure(images: favoriteRecipe)
         cell.delegate = self
@@ -153,8 +140,6 @@ extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegat
         let recipeData = oneIsStreet?.arrayImage[indexPath.row].image
         delegate?.openImage(image: recipeData)
     }
-
-
 }
 
 // вид UICollectioncell
@@ -178,18 +163,17 @@ extension DemoTableViewCell: UICollectionViewDelegateFlowLayout {
     }
 }
 
+// работа с collectionCell по делегату с cell
 extension DemoTableViewCell: DelegatDeleteCollectionViewCell {
     func deleteCollectionViewCell(index: Int) {
         if oneIsStreet?.arrayImage[index].pick != true {
             oneIsStreet?.arrayImage[index].pick = true
             arrayIndexImages.append(index)
-//            print(arrayIndexImages)
         } else {
             oneIsStreet?.arrayImage[index].pick = false
             for (indexArray, value) in arrayIndexImages.enumerated() {
                 if index == value {
                     arrayIndexImages.remove(at: indexArray)
-//                    print(arrayIndexImages)
                 }
             }
         }

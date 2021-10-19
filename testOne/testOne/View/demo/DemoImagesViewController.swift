@@ -15,15 +15,13 @@ class DemoImagesViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        startSetting()
+    }
+    public func startSetting(){
         button.layer.cornerRadius = button.frame.size.height / 2
         imagesColectionView.image = image
     }
-    
     @IBAction func buttonAct() {
         dismiss(animated: true)
     }
-    
-    
-
-
 }

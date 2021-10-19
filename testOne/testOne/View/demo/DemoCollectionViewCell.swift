@@ -22,9 +22,11 @@ class DemoCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        
+        startSetting()
+    }
+    
+    public func startSetting(){
         layer.cornerRadius = 10
-        
         buttonDelete.isHidden = true
         buttonDelete.layer.cornerRadius = buttonDelete.frame.size.height / 2
         buttonDelete.layer.borderWidth = 1
