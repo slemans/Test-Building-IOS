@@ -9,8 +9,9 @@ import UIKit
 
 struct Street {
     var lable: String?
-    var arrayImage: [Images?]
+    var arrayImage: [Images]
 }
 struct Images{
     let image: UIImage?
+    var pick: Bool?
 }

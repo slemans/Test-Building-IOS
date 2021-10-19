@@ -49,12 +49,11 @@ class ViewController: UIViewController {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-        
-        arrayStreet.append(Street(lable: "Название локации", arrayImage: [nil]))
+        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
     }
 
     @objc func pressed(_ sender: UIButton) {
-        arrayStreet.append(Street(lable: "Название локации", arrayImage: [nil]))
+        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
         tableView.reloadData()
     }
 

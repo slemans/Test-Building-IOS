@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		7F101AE4271ACCB600BAE787 /* DemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F101AE3271ACCB600BAE787 /* DemoCollectionViewCell.swift */; };
+		7F101AE6271D780900BAE787 /* DemoImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */; };
 		7F6B8002271861AE00D47DE2 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B8001271861AE00D47DE2 /* AppDelegate.swift */; };
 		7F6B8004271861AE00D47DE2 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B8003271861AE00D47DE2 /* SceneDelegate.swift */; };
 		7F6B8006271861AE00D47DE2 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B8005271861AE00D47DE2 /* ViewController.swift */; };
@@ -21,10 +23,12 @@
 		7F6B802A271880BD00D47DE2 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B8029271880BD00D47DE2 /* DemoViewController.swift */; };
 		7F6B802D2718A5F000D47DE2 /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B802C2718A5F000D47DE2 /* Street.swift */; };
 		7F6B802F2718B25900D47DE2 /* StreetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B802E2718B25900D47DE2 /* StreetTableViewCell.swift */; };
-		7F6B80322718B2DD00D47DE2 /* demoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B80312718B2DD00D47DE2 /* demoTableViewCell.swift */; };
+		7F6B80322718B2DD00D47DE2 /* DemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		7F101AE3271ACCB600BAE787 /* DemoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCollectionViewCell.swift; sourceTree = "<group>"; };
+		7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoImagesViewController.swift; sourceTree = "<group>"; };
 		7F6B7FFE271861AE00D47DE2 /* testOne.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = testOne.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7F6B8001271861AE00D47DE2 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7F6B8003271861AE00D47DE2 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -38,7 +42,7 @@
 		7F6B8029271880BD00D47DE2 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		7F6B802C2718A5F000D47DE2 /* Street.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Street.swift; sourceTree = "<group>"; };
 		7F6B802E2718B25900D47DE2 /* StreetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetTableViewCell.swift; sourceTree = "<group>"; };
-		7F6B80312718B2DD00D47DE2 /* demoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = demoTableViewCell.swift; sourceTree = "<group>"; };
+		7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewCell.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -133,7 +137,9 @@
 			isa = PBXGroup;
 			children = (
 				7F6B8029271880BD00D47DE2 /* DemoViewController.swift */,
-				7F6B80312718B2DD00D47DE2 /* demoTableViewCell.swift */,
+				7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */,
+				7F101AE3271ACCB600BAE787 /* DemoCollectionViewCell.swift */,
+				7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */,
 			);
 			path = demo;
 			sourceTree = "<group>";
@@ -228,11 +234,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F6B8006271861AE00D47DE2 /* ViewController.swift in Sources */,
+				7F101AE6271D780900BAE787 /* DemoImagesViewController.swift in Sources */,
 				7F6B8002271861AE00D47DE2 /* AppDelegate.swift in Sources */,
 				7F6B802F2718B25900D47DE2 /* StreetTableViewCell.swift in Sources */,
+				7F101AE4271ACCB600BAE787 /* DemoCollectionViewCell.swift in Sources */,
 				7F6B8004271861AE00D47DE2 /* SceneDelegate.swift in Sources */,
 				7F6B802D2718A5F000D47DE2 /* Street.swift in Sources */,
-				7F6B80322718B2DD00D47DE2 /* demoTableViewCell.swift in Sources */,
+				7F6B80322718B2DD00D47DE2 /* DemoTableViewCell.swift in Sources */,
 				7F6B802A271880BD00D47DE2 /* DemoViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

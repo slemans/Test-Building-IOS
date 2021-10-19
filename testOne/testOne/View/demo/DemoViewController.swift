@@ -7,32 +7,46 @@
 
 import UIKit
 
-class DemoViewController: UIViewController {
+protocol DelegatUpdateCollection: AnyObject {
+    func updateCollection()
+}
 
-  
+
+class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var button: UIButton!
-    
-    
+
+    let demoTableViewCellVC = DemoTableViewCell()
     var arrayStreet: [Street] = []
-    
+    var indexCellWherePutImages: Int?
+
+    weak var delegate: DelegatUpdateCollection?
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        arrayStreet.append(Street(lable: "Название локации", arrayImage: [Images(image: #imageLiteral(resourceName: "pfoto1")), Images(image: #imageLiteral(resourceName: "pfoto3")), Images(image: #imageLiteral(resourceName: "pfoto2"))]))
+        startSetting()
+//        arrayStreet.append(Street(lable: "Название локации", arrayImage: [Images(image: #imageLiteral(resourceName: "pfoto1")), Images(image: #imageLiteral(resourceName: "pfoto3")), Images(image: #imageLiteral(resourceName: "pfoto2"))]))
+        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
+       
+    }
+
+    @IBAction func buttonAc() {
+        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
+        tableView.reloadData()
+    }
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let DemoImagesVC = segue.destination as? DemoImagesViewController {
+            DemoImagesVC.image = sender as? UIImage
+        }
+    }
+    func startSetting() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
         button.layer.cornerRadius = button.frame.size.height / 2
-        
     }
-    @IBAction func buttonAc() {
-        arrayStreet.append(Street(lable: "Название локации", arrayImage: [nil]))
-        print("Добавил")
-        tableView.reloadData()
-    }
-    
-
 }
 
 
@@ -42,19 +56,43 @@ extension DemoViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "cellDemo", for: indexPath) as! demoTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "cellDemo", for: indexPath) as! DemoTableViewCell
         cell.delegate = self
+        cell.indexStreet = indexPath.row
         let street = arrayStreet[indexPath.row]
-        cell.fetchStreet(street: street)
+        cell.oneIsStreet = street
+        if street.arrayImage.count >= 1{
+            cell.stackFive.isHidden = false
+            cell.collectionView.reloadData()
+        } else {
+            cell.stackFive.isHidden = true
+            cell.collectionView.reloadData()
+        }
         return cell
     }
 }
 
 extension DemoViewController: DelegatReturnTable {
-    func returnTableReview() {
+    func reloatDataBase() {
+        tableView.reloadData()
+    }
+
+    func deleteImageWithtable(index: Int, indexCell: [Int]) {
+        let sortedIndexCell = indexCell.sorted(by: > )
+        for (_, value) in sortedIndexCell.enumerated() {
+            arrayStreet[index].arrayImage.remove(at: value)
+        }
+        tableView.reloadData()
+    }
+    
+    // добавление нового фото
+    func returnTableReview(index: Int) {
+        indexCellWherePutImages = index
         cooseImagePicker(source: .photoLibrary)
-//        tableView.reloadData()
-        
+    }
+
+    func openImage(image: UIImage?) {
+        performSegue(withIdentifier: "seguePhoto", sender: image)
     }
 }
 
@@ -73,13 +111,10 @@ extension DemoViewController: UIImagePickerControllerDelegate, UINavigationContr
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
-        arrayStreet[0].arrayImage.append(Images(image: image))
-        print("сохранение")
-//        imagesProfileUser.image = info[.editedImage] as? UIImage
-//        imagesProfileUser.contentMode = .scaleAspectFill
-//        imagesProfileUser.clipsToBounds = true // pruning photo for border Lb
-//        imageIsChanged = true
-//        userImagesAndName(image: info[.editedImage] as? UIImage, name: nil)
-//        dismiss(animated: true)
+        guard let index = indexCellWherePutImages else { return }
+        arrayStreet[index].arrayImage.append(Images(image: image))
+        tableView.reloadData()
     }
 }
+
+
