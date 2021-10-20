@@ -78,7 +78,8 @@ class DemoTableViewCell: UITableViewCell {
 
     @IBAction func buttonDeleteAct() {
         buttonDelete.isHidden = true
-        if oneIsStreet?.arrayImage.count == 0 {
+        if let arrayImage = oneIsStreet?.arrayImage.count,
+           arrayImage == 0 {
             stackFive.isHidden = true
         }
         delegate?.deleteImageWithtable(index: indexStreet, indexCell: arrayIndexImages)
@@ -115,7 +116,8 @@ class DemoTableViewCell: UITableViewCell {
 
 extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return oneIsStreet?.arrayImage.count ?? 0
+        let count = oneIsStreet?.arrayImage.count
+        return count ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -137,7 +139,7 @@ extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegat
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recipeData = oneIsStreet?.arrayImage[indexPath.row].image
+        let recipeData = oneIsStreet?.arrayImage[indexPath.row]?.image
         delegate?.openImage(image: recipeData)
     }
 }
@@ -166,11 +168,11 @@ extension DemoTableViewCell: UICollectionViewDelegateFlowLayout {
 // работа с collectionCell по делегату с cell
 extension DemoTableViewCell: DelegatDeleteCollectionViewCell {
     func deleteCollectionViewCell(index: Int) {
-        if oneIsStreet?.arrayImage[index].pick != true {
-            oneIsStreet?.arrayImage[index].pick = true
+        if oneIsStreet?.arrayImage[index]?.pick != true {
+            oneIsStreet?.arrayImage[index]?.pick = true
             arrayIndexImages.append(index)
         } else {
-            oneIsStreet?.arrayImage[index].pick = false
+            oneIsStreet?.arrayImage[index]?.pick = false
             for (indexArray, value) in arrayIndexImages.enumerated() {
                 if index == value {
                     arrayIndexImages.remove(at: indexArray)

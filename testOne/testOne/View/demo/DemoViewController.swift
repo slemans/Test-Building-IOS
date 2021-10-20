@@ -18,21 +18,64 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     let demoTableViewCellVC = DemoTableViewCell()
     var arrayStreet: [Street] = []
     var indexCellWherePutImages: Int?
+    
 
+    var ref: DatabaseReference!
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(FirebaseApp.configure())
         startSetting()
 //        arrayStreet.append(Street(lable: "Название локации", arrayImage: [Images(image: #imageLiteral(resourceName: "pfoto1")), Images(image: #imageLiteral(resourceName: "pfoto3")), Images(image: #imageLiteral(resourceName: "pfoto2"))]))
-        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
-       
+//        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
+        arrayStreet.append(Street(lable: "Название локации", images: [Images(image: #imageLiteral(resourceName: "pfoto1"))]))
+        arrayStreet.append(Street(lable: "Название локации"))
+
+        ref = Database.database().reference(withPath: "Streets")
+        print(arrayStreet)
     }
 
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        
+//        // наблюдатель за значениями
+//        ref.observe(.value) { [weak self] snapshot in
+//            var arrayStreetTwo = [Street]()
+//            for item in snapshot.children {
+//                guard let snapshot = item as? DataSnapshot,
+//                      let street = Street(snapshot: snapshot) else { continue }
+//                arrayStreetTwo.append(street)
+//            }
+//            self?.arrayStreet = arrayStreetTwo
+//            self?.tableView.reloadData()
+//        }
+//    }
+//    
+//    override func viewWillDisappear(_ animated: Bool) {
+//        super.viewWillDisappear(animated)
+//        // удаляем всех обзерверов
+//        ref.removeAllObservers()
+//    }
+
     @IBAction func buttonAc() {
-        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
+        let newStreet = Street(lable: "Название локации")
+        arrayStreet.append(newStreet)
         tableView.reloadData()
+        // создание новый улицы в firebase
+        let newSteet = FirebaseDatabaseProject.ref.child("\(arrayStreet.count)")
+        newSteet.ref.setValue([
+            "lable": "Название локации",
+            "arrayImage": [nil]
+            ])
+
+//        newSteet.ref.setValue([
+//            "lable": "Название локации",
+//            "arrayImage": [
+//                "image": "gs://testone-abe3e.appspot.com/images/pfoto1.jpg",
+//                "pick": false
+//            ]
+//            ])
     }
+
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let DemoImagesVC = segue.destination as? DemoImagesViewController {
@@ -60,6 +103,8 @@ extension DemoViewController: UITableViewDelegate, UITableViewDataSource {
         cell.indexStreet = indexPath.row
         let street = arrayStreet[indexPath.row]
         cell.oneIsStreet = street
+        print(street.arrayImage.count)
+        
         if street.arrayImage.count >= 1{
             cell.stackFive.isHidden = false
             cell.collectionView.reloadData()
@@ -67,6 +112,15 @@ extension DemoViewController: UITableViewDelegate, UITableViewDataSource {
             cell.stackFive.isHidden = true
             cell.collectionView.reloadData()
         }
+        
+//        if street.arrayImage.count >= 1 {
+//            cell.stackFive.isHidden = false
+//            cell.collectionView.reloadData()
+//        } else {
+//            cell.stackFive.isHidden = true
+//            cell.collectionView.reloadData()
+//        }
+        print(street)
         return cell
     }
 }
@@ -77,13 +131,14 @@ extension DemoViewController: DelegatReturnTable {
     }
 
     func deleteImageWithtable(index: Int, indexCell: [Int]) {
-        let sortedIndexCell = indexCell.sorted(by: > )
+        let sortedIndexCell = indexCell.sorted(by: >)
         for (_, value) in sortedIndexCell.enumerated() {
-            arrayStreet[index].arrayImage.remove(at: value)
+                arrayStreet[index].arrayImage.remove(at: value)
+            
         }
         tableView.reloadData()
     }
-    
+
     // добавление нового фото
     func returnTableReview(index: Int) {
         indexCellWherePutImages = index
@@ -109,7 +164,8 @@ extension DemoViewController: UIImagePickerControllerDelegate, UINavigationContr
         }
     }
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-        let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+
         guard let index = indexCellWherePutImages else { return }
         arrayStreet[index].arrayImage.append(Images(image: image))
         tableView.reloadData()
