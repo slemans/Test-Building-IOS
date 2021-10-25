@@ -10,7 +10,7 @@ import UIKit
 protocol DelegatReturnTable: AnyObject {
     func reloatDataBase()
     func returnTableReview(index: Int, street: Street)
-    func deleteImageWithtable(index: Int, indexCell: [Int])
+    func deleteImageWithtable(index: Int, nameCell: [String])
     func openImage(image: UIImage?)
 }
 
@@ -29,7 +29,6 @@ class DemoTableViewCell: UITableViewCell {
 
     var oneIsStreet: Street!
     var indexStreet: Int!
-    var arrayIndexImages: [Int] = []
     var arrayNameImages: [String] = []
     weak var delegate: DelegatReturnTable?
 
@@ -45,7 +44,7 @@ class DemoTableViewCell: UITableViewCell {
             return
         }
         buttonDelete.isHidden = false
-        delegate?.reloatDataBase()
+//        delegate?.reloatDataBase()
         collectionView.reloadData()
     }
 
@@ -88,9 +87,9 @@ class DemoTableViewCell: UITableViewCell {
         if oneIsStreet.arrayImage.count == 0 {
             stackFive.isHidden = true
         }
-        delegate?.deleteImageWithtable(index: indexStreet, indexCell: arrayIndexImages)
-        arrayIndexImages.removeAll()
-        collectionView.reloadData()
+        delegate?.deleteImageWithtable(index: indexStreet, nameCell: arrayNameImages)
+        arrayNameImages.removeAll()
+//        collectionView.reloadData()
     }
 
     public func start() {
@@ -141,6 +140,7 @@ extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegat
             cell.buttonDelete.setTitle("x", for: .normal)
         }
         cell.indexCollectionViewCell = indexPath.row
+        cell.nameCollectionViewCell = imageStreet?.title
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -172,24 +172,19 @@ extension DemoTableViewCell: UICollectionViewDelegateFlowLayout {
 
 // работа с collectionCell по делегату с cell
 extension DemoTableViewCell: DelegatDeleteCollectionViewCell {
-    func deleteCollectionViewCell(index: Int) {
+    func deleteCollectionViewCell(index: Int, title: String) {
         if oneIsStreet.arrayImage[index]?.pick != true {
             oneIsStreet.arrayImage[index]?.pick = true
-            arrayIndexImages.append(index)
             arrayNameImages.append(oneIsStreet.arrayImage[index]!.title) // добавил titile  вновый массив
         } else {
             oneIsStreet.arrayImage[index]?.pick = false
-            for (indexArray, value) in arrayIndexImages.enumerated() {
-                if index == value {
-                    arrayIndexImages.remove(at: indexArray)
+            for (indexArray, value) in arrayNameImages.enumerated(){
+                if value == title{
+                    arrayNameImages.remove(at: indexArray)
                 }
             }
-            for title in arrayNameImages{
-//                if title
-            }
         }
-        print(arrayIndexImages)
-        collectionView.reloadData()
+//        collectionView.reloadData()
     }
 }
 

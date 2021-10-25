@@ -141,8 +141,8 @@
                                                                                                             <action selector="buttonDeleteImageAction" destination="Xb0-ur-BkC" eventType="touchUpInside" id="ymC-4H-HQi"/>
                                                                                                         </connections>
                                                                                                     </button>
-                                                                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Lx8-Yf-QrP">
-                                                                                                        <rect key="frame" x="54" y="53.666666030883789" width="20" height="20"/>
+                                                                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Lx8-Yf-QrP">
+                                                                                                        <rect key="frame" x="45.666666666666657" y="45.666666666666657" width="37" height="37"/>
                                                                                                     </activityIndicatorView>
                                                                                                 </subviews>
                                                                                                 <constraints>

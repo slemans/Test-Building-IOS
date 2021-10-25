@@ -26,6 +26,7 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         startSetting()
+        
     }
 
     override func viewWillAppear(_ animated: Bool) {
@@ -36,30 +37,31 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
             var arrayStreetTwo = [Street]()
             for item in snapshot.children {
                 guard let snapshot = item as? DataSnapshot,
-                      let street = Street(snapshot: snapshot) else { continue }
+                    let street = Street(snapshot: snapshot) else { continue }
                 arrayStreetTwo.append(street)
             }
             self?.arrayStreet = arrayStreetTwo
             self?.tableView.reloadData()
         }
         
+
     }
 
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         // удаляем всех обзерверов
         FirebaseDatabaseProject.ref.removeAllObservers()
-        print(arrayStreet)
+        
     }
 
     @IBAction func buttonAc() {
         let newStreetTask = Street(lable: "Название локации")
         arrayStreet.append(newStreetTask)
-        tableView.reloadData()
-
+//        tableView.reloadData()
         // создание новый улицы в firebase
         let newSteet = FirebaseDatabaseProject.ref.child("location\(arrayStreet.count)")
         newSteet.setValue(newStreetTask.convertStreetDictionary())
+        
     }
 
 
@@ -119,13 +121,24 @@ extension DemoViewController: UITableViewDelegate, UITableViewDataSource {
         }
         return cell
     }
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        let street = arrayStreet[indexPath.row]
-    }
 
 }
 
 extension DemoViewController: DelegatReturnTable {
+    func deleteImageWithtable(index: Int, nameCell: [String]) {
+
+        for title in nameCell {
+            for (inde, cell) in arrayStreet[index].arrayImage.enumerated() {
+                if cell?.title == title {
+                    arrayStreet[index].arrayImage.remove(at: inde)
+                    let ref = arrayStreet[index].ref?.child("arrayImage").child(title)
+                    ref?.removeValue { _, _ in }
+                }
+            }
+        }
+//        tableView.reloadData()
+    }
+
     // добавление нового фото
     func returnTableReview(index: Int, street: Street) {
         indexCellWherePutImages = index
@@ -134,16 +147,7 @@ extension DemoViewController: DelegatReturnTable {
     }
 
     func reloatDataBase() {
-        tableView.reloadData()
-    }
-
-    func deleteImageWithtable(index: Int, indexCell: [Int]) {
-        let sortedIndexCell = indexCell.sorted(by: >)
-        for (_, value) in sortedIndexCell.enumerated() {
-            // тут писать delete
-            arrayStreet[index].arrayImage.remove(at: value)
-        }
-        tableView.reloadData()
+//        tableView.reloadData()
     }
 
     func openImage(image: UIImage?) {
@@ -169,10 +173,7 @@ extension DemoViewController: UIImagePickerControllerDelegate, UINavigationContr
 
     // рабочий выбор фото
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
-//        picker.dismiss(animated: true, completion: nil) // уничтожает пикер при первом нажатии
-
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-
         uploadImageFireStorege(photo: image) { (result) in
             switch result {
             case .success(let url):
@@ -185,19 +186,6 @@ extension DemoViewController: UIImagePickerControllerDelegate, UINavigationContr
                 print(error)
             }
         }
-
-
-//        guard let index = indexCellWherePutImages else { return }
-//        arrayStreet[index].arrayImage.append(Images(image: image))
-//        tableView.reloadData()
-//
-//        let imgTitle = "demoImage\(image.description)"
-//        let imgUrl = "https:yandex.ru/img\(index)"
-//        let newImgTask = Images(title: imgTitle, url: imgUrl)
-//
-//        guard let index = indexCellWherePutImages else { return }
-//        let newDemoStreet = arrayStreet[index].ref?.child("arrayImage").child(imgTitle)
-//        newDemoStreet?.setValue(newImgTask.convertStreetDictionary())
 
     }
 }

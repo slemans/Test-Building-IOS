@@ -32,20 +32,21 @@ struct Street {
     init?(snapshot: DataSnapshot) {
         var arrayImageTwo: [Images?] = []
         guard let snapshotValue = snapshot.value as? [String: Any],
-              let lable = snapshotValue[Constants.lableKey] as? String,
-              let favoritedDate = snapshotValue["arrayImage"] as? [String: [String: String]]
+              let lable = snapshotValue[Constants.lableKey] as? String
             else { return nil }
-        for (_, value) in favoritedDate{
-            var title = ""
-            var url = ""
-            for (key, date) in value{
-                if key == "title"{
-                    title = date
-                } else{
-                    url = date
+        if let favoritedDate = snapshotValue["arrayImage"] as? [String: [String: String]] {
+            for (_, value) in favoritedDate{
+                var title = ""
+                var url = ""
+                for (key, date) in value{
+                    if key == "title"{
+                        title = date
+                    } else{
+                        url = date
+                    }
                 }
+                arrayImageTwo.append(Images(title: title, url: url))
             }
-            arrayImageTwo.append(Images(title: title, url: url))   
         }
         self.lable = lable
         ref = snapshot.ref
@@ -75,16 +76,16 @@ struct Images {
         self.image = #imageLiteral(resourceName: "pfoto2")
     }
     
-    init?(snapshot: DataSnapshot) {
-        guard let snapshotValue = snapshot.value as? [String: Any]
-            
-              //let title = snapshotValue[Constants.titleKey] as? String
-//               let url = snapshotValue[Constants.urlKey] as? String
-            else { return nil }
-        self.title = ""
-        self.url = ""
-        self.image = #imageLiteral(resourceName: "pfoto2")
-    }
+//    init?(snapshot: DataSnapshot) {
+//        guard let snapshotValue = snapshot.value as? [String: Any]
+//
+//              //let title = snapshotValue[Constants.titleKey] as? String
+////               let url = snapshotValue[Constants.urlKey] as? String
+//            else { return nil }
+//        self.title = ""
+//        self.url = ""
+//        self.image = #imageLiteral(resourceName: "pfoto2")
+//    }
     
     func convertStreetDictionary() -> [String: Any]{
         [Constants.titleKey: title, Constants.urlKey: url]

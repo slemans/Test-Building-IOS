@@ -8,7 +8,7 @@
 import UIKit
 
 protocol DelegatDeleteCollectionViewCell: AnyObject {
-    func deleteCollectionViewCell(index: Int)
+    func deleteCollectionViewCell(index: Int, title: String)
 }
 
 class DemoCollectionViewCell: UICollectionViewCell {
@@ -20,6 +20,7 @@ class DemoCollectionViewCell: UICollectionViewCell {
     weak var delegate: DelegatDeleteCollectionViewCell?
     let colorButoonDelete:UIColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
     var indexCollectionViewCell: Int!
+    var nameCollectionViewCell: String!
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,9 +41,8 @@ class DemoCollectionViewCell: UICollectionViewCell {
         putImage(image: images.url)
     }
     @IBAction func buttonDeleteImageAction() {
-        print("Удалить Image")
         buttonDelete.setTitle("x", for: .normal)
-        delegate?.deleteCollectionViewCell(index: indexCollectionViewCell)
+        delegate?.deleteCollectionViewCell(index: indexCollectionViewCell, title: nameCollectionViewCell)
     }
     private func putImage(image: String?) {
         guard let image = image,
