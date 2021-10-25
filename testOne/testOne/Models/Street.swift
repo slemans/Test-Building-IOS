@@ -30,22 +30,64 @@ struct Street {
 
     // из сети
     init?(snapshot: DataSnapshot) {
+        var arrayImageTwo: [Images?] = []
         guard let snapshotValue = snapshot.value as? [String: Any],
-            let lable = snapshotValue[Constants.lableKey] as? String
+              let lable = snapshotValue[Constants.lableKey] as? String,
+              let favoritedDate = snapshotValue["arrayImage"] as? [String: [String: String]]
             else { return nil }
+        for (_, value) in favoritedDate{
+            var title = ""
+            var url = ""
+            for (key, date) in value{
+                if key == "title"{
+                    title = date
+                } else{
+                    url = date
+                }
+            }
+            arrayImageTwo.append(Images(title: title, url: url))   
+        }
         self.lable = lable
         ref = snapshot.ref
-        self.arrayImage = []
+        self.arrayImage = arrayImageTwo
     }
-    private enum Constants {
-        static let lableKey = "lable"
-        static let arrayImageKey = "arrayImage"
+    
+    func convertStreetDictionary() -> [String: Any]{
+        [Constants.lableKey: lable, Constants.arrayImageKey: []]
     }
+
 }
 struct Images {
     let image: UIImage
+    let url: String
+    let title: String
     var pick: Bool = false
+    
     init(image: UIImage){
         self.image = image
+        self.title = "demoTitle"
+        self.url = "demoUrl"
     }
+    
+    init(title: String, url: String){
+        self.title = title
+        self.url = url
+        self.image = #imageLiteral(resourceName: "pfoto2")
+    }
+    
+    init?(snapshot: DataSnapshot) {
+        guard let snapshotValue = snapshot.value as? [String: Any]
+            
+              //let title = snapshotValue[Constants.titleKey] as? String
+//               let url = snapshotValue[Constants.urlKey] as? String
+            else { return nil }
+        self.title = ""
+        self.url = ""
+        self.image = #imageLiteral(resourceName: "pfoto2")
+    }
+    
+    func convertStreetDictionary() -> [String: Any]{
+        [Constants.titleKey: title, Constants.urlKey: url]
+    }
+    
 }

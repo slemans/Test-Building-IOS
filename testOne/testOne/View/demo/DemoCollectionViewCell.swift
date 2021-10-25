@@ -15,6 +15,7 @@ class DemoCollectionViewCell: UICollectionViewCell {
     
     @IBOutlet weak var image: UIImageView!
     @IBOutlet weak var buttonDelete: UIButton!
+    @IBOutlet weak var indicator: UIActivityIndicatorView!
     
     weak var delegate: DelegatDeleteCollectionViewCell?
     let colorButoonDelete:UIColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
@@ -36,13 +37,29 @@ class DemoCollectionViewCell: UICollectionViewCell {
     
     func configure(images: Images?) {
         guard let images = images else { return }
-        image.image = images.image
+        putImage(image: images.url)
     }
     @IBAction func buttonDeleteImageAction() {
         print("Удалить Image")
         buttonDelete.setTitle("x", for: .normal)
         delegate?.deleteCollectionViewCell(index: indexCollectionViewCell)
     }
+    private func putImage(image: String?) {
+        guard let image = image,
+            let urlImg = URL(string: image) else { return }
+        URLSession.shared.dataTask(with: urlImg) { data, _, _ in
+            let queue = DispatchQueue.global(qos: .utility)
+            queue.async {
+                if let data = data, let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self.image.image = image
+                        self.indicator.stopAnimating()
+                    }
+                }
+            }
+        }.resume()
+    }
+    
 }
 
 

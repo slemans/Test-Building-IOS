@@ -9,7 +9,7 @@ import UIKit
 
 protocol DelegatReturnTable: AnyObject {
     func reloatDataBase()
-    func returnTableReview(index: Int)
+    func returnTableReview(index: Int, street: Street)
     func deleteImageWithtable(index: Int, indexCell: [Int])
     func openImage(image: UIImage?)
 }
@@ -27,17 +27,18 @@ class DemoTableViewCell: UITableViewCell {
     @IBOutlet weak var collectionView: UICollectionView!
     @IBOutlet weak var buttonDelete: UIButton!
 
-    var oneIsStreet: Street?
+    var oneIsStreet: Street!
     var indexStreet: Int!
     var arrayIndexImages: [Int] = []
+    var arrayNameImages: [String] = []
     weak var delegate: DelegatReturnTable?
-    
+
     override func awakeFromNib() {
         super.awakeFromNib()
         start()
     }
 
-    
+
     // длинное нажатие на картинку
     @objc func handleLongPress(gesture: UILongPressGestureRecognizer!) {
         if gesture.state != .ended {
@@ -48,6 +49,12 @@ class DemoTableViewCell: UITableViewCell {
         collectionView.reloadData()
     }
 
+    // изменения название lable
+    @IBAction func editingTextFielAct(_ sender: UITextField) {
+        if sender.text?.count ?? 0 >= 1, let text = sender.text {
+            oneIsStreet.ref?.updateChildValues(["lable": text])
+        }
+    }
 
     // тень cell
     func shadowStack() {
@@ -55,7 +62,7 @@ class DemoTableViewCell: UITableViewCell {
         stackOne.layer.cornerRadius = corner
         stackOne.layer.shadowColor = #colorLiteral(red: 0.3803921569, green: 0.4156862745, blue: 0.4156862745, alpha: 1)
         steackTwo.layer.masksToBounds = false
-        steackTwo.layer.shadowOffset = CGSize(width: 0.0 , height: 5.0)
+        steackTwo.layer.shadowOffset = CGSize(width: 0.0, height: 5.0)
         steackTwo.layer.shadowOpacity = 0.3
         steackTwo.layer.shadowRadius = 6.0
     }
@@ -73,13 +80,12 @@ class DemoTableViewCell: UITableViewCell {
 
 
     @IBAction func buttonAddImages() {
-        delegate?.returnTableReview(index: indexStreet)
+        delegate?.returnTableReview(index: indexStreet, street: oneIsStreet)
     }
 
     @IBAction func buttonDeleteAct() {
         buttonDelete.isHidden = true
-        if let arrayImage = oneIsStreet?.arrayImage.count,
-           arrayImage == 0 {
+        if oneIsStreet.arrayImage.count == 0 {
             stackFive.isHidden = true
         }
         delegate?.deleteImageWithtable(index: indexStreet, indexCell: arrayIndexImages)
@@ -90,8 +96,8 @@ class DemoTableViewCell: UITableViewCell {
     public func start() {
         stackThree.layer.borderColor = #colorLiteral(red: 0.9263823628, green: 0.9255852103, blue: 0.921618104, alpha: 1)
         stackThree.layer.borderWidth = 1
-        
-        
+
+
         // долгое нажатие long press
         let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
         longPressedGesture.minimumPressDuration = 1.0
@@ -99,7 +105,7 @@ class DemoTableViewCell: UITableViewCell {
         self.collectionView.addGestureRecognizer(longPressedGesture)
 
         buttonDelete.isHidden = true
-        
+
         collectionView.dataSource = self
         collectionView.delegate = self
         buttonDelete.layer.borderWidth = 1
@@ -116,21 +122,20 @@ class DemoTableViewCell: UITableViewCell {
 
 extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        let count = oneIsStreet?.arrayImage.count
-        return count ?? 0
+        return oneIsStreet.arrayImage.count
     }
 
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCellDemo", for: indexPath) as! DemoCollectionViewCell
-        let favoriteRecipe = oneIsStreet?.arrayImage[indexPath.row]
-        cell.configure(images: favoriteRecipe)
+        let imageStreet = oneIsStreet.arrayImage[indexPath.row]
+        cell.configure(images: imageStreet)
         cell.delegate = self
-        if buttonDelete.isHidden == false{
+        if buttonDelete.isHidden == false {
             cell.buttonDelete.isHidden = false
         } else {
             cell.buttonDelete.isHidden = true
         }
-        if favoriteRecipe?.pick != true {
+        if imageStreet?.pick != true {
             cell.buttonDelete.setTitle("", for: .normal)
         } else {
             cell.buttonDelete.setTitle("x", for: .normal)
@@ -139,7 +144,7 @@ extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegat
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recipeData = oneIsStreet?.arrayImage[indexPath.row]?.image
+        let recipeData = oneIsStreet.arrayImage[indexPath.row]?.image
         delegate?.openImage(image: recipeData)
     }
 }
@@ -168,17 +173,22 @@ extension DemoTableViewCell: UICollectionViewDelegateFlowLayout {
 // работа с collectionCell по делегату с cell
 extension DemoTableViewCell: DelegatDeleteCollectionViewCell {
     func deleteCollectionViewCell(index: Int) {
-        if oneIsStreet?.arrayImage[index]?.pick != true {
-            oneIsStreet?.arrayImage[index]?.pick = true
+        if oneIsStreet.arrayImage[index]?.pick != true {
+            oneIsStreet.arrayImage[index]?.pick = true
             arrayIndexImages.append(index)
+            arrayNameImages.append(oneIsStreet.arrayImage[index]!.title) // добавил titile  вновый массив
         } else {
-            oneIsStreet?.arrayImage[index]?.pick = false
+            oneIsStreet.arrayImage[index]?.pick = false
             for (indexArray, value) in arrayIndexImages.enumerated() {
                 if index == value {
                     arrayIndexImages.remove(at: indexArray)
                 }
             }
+            for title in arrayNameImages{
+//                if title
+            }
         }
+        print(arrayIndexImages)
         collectionView.reloadData()
     }
 }

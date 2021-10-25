@@ -88,6 +88,9 @@
                                                                                     <color key="textColor" red="0.52549019607843139" green="0.58039215686274503" blue="0.58431372549019611" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                     <fontDescription key="fontDescription" name="ArialMT" family="Arial" pointSize="21"/>
                                                                                     <textInputTraits key="textInputTraits"/>
+                                                                                    <connections>
+                                                                                        <action selector="editingTextFielAct:" destination="5us-rG-eGc" eventType="editingDidEnd" id="TKY-1A-Q1z"/>
+                                                                                    </connections>
                                                                                 </textField>
                                                                             </subviews>
                                                                             <constraints>
@@ -138,15 +141,21 @@
                                                                                                             <action selector="buttonDeleteImageAction" destination="Xb0-ur-BkC" eventType="touchUpInside" id="ymC-4H-HQi"/>
                                                                                                         </connections>
                                                                                                     </button>
+                                                                                                    <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" misplaced="YES" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="Lx8-Yf-QrP">
+                                                                                                        <rect key="frame" x="54" y="53.666666030883789" width="20" height="20"/>
+                                                                                                    </activityIndicatorView>
                                                                                                 </subviews>
                                                                                                 <constraints>
                                                                                                     <constraint firstAttribute="trailing" secondItem="xcl-I3-utj" secondAttribute="trailing" constant="12" id="GgD-xM-AuK"/>
                                                                                                     <constraint firstItem="xcl-I3-utj" firstAttribute="top" secondItem="vfW-r1-hiH" secondAttribute="top" constant="12" id="LPj-Dx-CTU"/>
+                                                                                                    <constraint firstItem="Lx8-Yf-QrP" firstAttribute="centerX" secondItem="vfW-r1-hiH" secondAttribute="centerX" id="V9B-3H-UjI"/>
+                                                                                                    <constraint firstItem="Lx8-Yf-QrP" firstAttribute="centerY" secondItem="vfW-r1-hiH" secondAttribute="centerY" id="ViR-ZJ-bD5"/>
                                                                                                 </constraints>
                                                                                             </collectionViewCellContentView>
                                                                                             <connections>
                                                                                                 <outlet property="buttonDelete" destination="xcl-I3-utj" id="TRl-fT-5yK"/>
                                                                                                 <outlet property="image" destination="dDH-zC-y0E" id="6xs-qM-4nx"/>
+                                                                                                <outlet property="indicator" destination="Lx8-Yf-QrP" id="4tN-o4-az5"/>
                                                                                             </connections>
                                                                                         </collectionViewCell>
                                                                                     </cells>
