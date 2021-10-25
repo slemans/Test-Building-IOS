@@ -57,7 +57,6 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func buttonAc() {
         let newStreetTask = Street(lable: "Название локации")
         arrayStreet.append(newStreetTask)
-//        tableView.reloadData()
         // создание новый улицы в firebase
         let newSteet = FirebaseDatabaseProject.ref.child("location\(arrayStreet.count)")
         newSteet.setValue(newStreetTask.convertStreetDictionary())
@@ -67,7 +66,7 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let DemoImagesVC = segue.destination as? DemoImagesViewController {
-            DemoImagesVC.image = sender as? UIImage
+            DemoImagesVC.imageUrl = sender as? String
         }
     }
     public func startSetting() {
@@ -125,8 +124,11 @@ extension DemoViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension DemoViewController: DelegatReturnTable {
+    func openImage(image: UIImage?, images: String?) {
+        performSegue(withIdentifier: "seguePhoto", sender: images)
+    }
+    
     func deleteImageWithtable(index: Int, nameCell: [String]) {
-
         for title in nameCell {
             for (inde, cell) in arrayStreet[index].arrayImage.enumerated() {
                 if cell?.title == title {
@@ -136,7 +138,6 @@ extension DemoViewController: DelegatReturnTable {
                 }
             }
         }
-//        tableView.reloadData()
     }
 
     // добавление нового фото
@@ -144,14 +145,6 @@ extension DemoViewController: DelegatReturnTable {
         indexCellWherePutImages = index
         streetWhyPick = street
         cooseImagePicker(source: .photoLibrary)
-    }
-
-    func reloatDataBase() {
-//        tableView.reloadData()
-    }
-
-    func openImage(image: UIImage?) {
-        performSegue(withIdentifier: "seguePhoto", sender: image)
     }
 }
 

@@ -289,6 +289,9 @@
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="hat-mU-sl3">
                                 <rect key="frame" x="0.0" y="0.0" width="428" height="838"/>
                             </imageView>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="large" translatesAutoresizingMaskIntoConstraints="NO" id="pjt-PR-00J">
+                                <rect key="frame" x="195.66666666666666" y="400.66666666666669" width="37" height="37"/>
+                            </activityIndicatorView>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4sQ-h8-FTY">
                                 <rect key="frame" x="369" y="25" width="34" height="34"/>
                                 <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -307,17 +310,20 @@
                         <viewLayoutGuide key="safeArea" id="7ZC-j4-vOr"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="pjt-PR-00J" firstAttribute="centerY" secondItem="7ZC-j4-vOr" secondAttribute="centerY" id="46I-GZ-wzQ"/>
                             <constraint firstItem="7ZC-j4-vOr" firstAttribute="trailing" secondItem="hat-mU-sl3" secondAttribute="trailing" id="Mx4-Kt-A75"/>
                             <constraint firstItem="hat-mU-sl3" firstAttribute="leading" secondItem="7ZC-j4-vOr" secondAttribute="leading" id="OVY-RQ-IiR"/>
                             <constraint firstItem="hat-mU-sl3" firstAttribute="top" secondItem="7ZC-j4-vOr" secondAttribute="top" id="UdU-eE-C1B"/>
                             <constraint firstItem="7ZC-j4-vOr" firstAttribute="trailing" secondItem="4sQ-h8-FTY" secondAttribute="trailing" constant="25" id="ZUk-wR-3dC"/>
                             <constraint firstItem="7ZC-j4-vOr" firstAttribute="bottom" secondItem="hat-mU-sl3" secondAttribute="bottom" id="hJ0-Is-bAT"/>
                             <constraint firstItem="4sQ-h8-FTY" firstAttribute="top" secondItem="7ZC-j4-vOr" secondAttribute="top" constant="25" id="mmz-0h-3Gd"/>
+                            <constraint firstItem="pjt-PR-00J" firstAttribute="centerX" secondItem="7ZC-j4-vOr" secondAttribute="centerX" id="w0i-3s-QiB"/>
                         </constraints>
                     </view>
                     <connections>
                         <outlet property="button" destination="4sQ-h8-FTY" id="0Ne-2H-iz6"/>
                         <outlet property="imagesColectionView" destination="hat-mU-sl3" id="DAE-ec-AIY"/>
+                        <outlet property="indicator" destination="pjt-PR-00J" id="PCI-sy-O5K"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="m5q-fF-COh" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
