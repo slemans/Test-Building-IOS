@@ -8,9 +8,6 @@
 import UIKit
 import Firebase
 
-
-
-
 class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var button: UIButton!
@@ -57,6 +54,7 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func buttonAc() {
         let newStreetTask = Street(lable: "Название локации")
         arrayStreet.append(newStreetTask)
+        
         // создание новый улицы в firebase
         let newSteet = FirebaseDatabaseProject.ref.child("location\(arrayStreet.count)")
         newSteet.setValue(newStreetTask.convertStreetDictionary())
@@ -124,15 +122,15 @@ extension DemoViewController: UITableViewDelegate, UITableViewDataSource {
 }
 
 extension DemoViewController: DelegatReturnTable {
-    func openImage(image: UIImage?, images: String?) {
+    func openImage(images: String?) {
         performSegue(withIdentifier: "seguePhoto", sender: images)
     }
     
     func deleteImageWithtable(index: Int, nameCell: [String]) {
         for title in nameCell {
-            for (inde, cell) in arrayStreet[index].arrayImage.enumerated() {
+            for (_, cell) in arrayStreet[index].arrayImage.enumerated() {
                 if cell?.title == title {
-                    arrayStreet[index].arrayImage.remove(at: inde)
+//                    arrayStreet[index].arrayImage.remove(at: inde)
                     let ref = arrayStreet[index].ref?.child("arrayImage").child(title)
                     ref?.removeValue { _, _ in }
                 }
@@ -159,7 +157,6 @@ extension DemoViewController: UIImagePickerControllerDelegate, UINavigationContr
             imagePicker.allowsEditing = false
             imagePicker.sourceType = source
             present(imagePicker, animated: true)
-
         }
     }
 
@@ -167,13 +164,13 @@ extension DemoViewController: UIImagePickerControllerDelegate, UINavigationContr
     // рабочий выбор фото
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
         guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
-        uploadImageFireStorege(photo: image) { (result) in
+        uploadImageFireStorege(photo: image) { [weak self] (result) in
             switch result {
             case .success(let url):
                 let imgUrl = url.absoluteString
                 let newImgTask = Images(title: GetDate.time, url: imgUrl)
-                guard let index = self.indexCellWherePutImages else { return }
-                let newDemoStreet = self.arrayStreet[index].ref?.child("arrayImage").child("\(GetDate.time)")
+                guard let index = self?.indexCellWherePutImages else { return }
+                let newDemoStreet = self?.arrayStreet[index].ref?.child("arrayImage").child("\(GetDate.time)")
                 newDemoStreet?.setValue(newImgTask.convertStreetDictionary())
             case .failure(let error):
                 print(error)

@@ -59,13 +59,11 @@ struct Street {
 
 }
 struct Images {
-    let image: UIImage
     let url: String
     let title: String
     var pick: Bool = false
     
     init(image: UIImage){
-        self.image = image
         self.title = "demoTitle"
         self.url = "demoUrl"
     }
@@ -73,19 +71,7 @@ struct Images {
     init(title: String, url: String){
         self.title = title
         self.url = url
-        self.image = #imageLiteral(resourceName: "pfoto2")
     }
-    
-//    init?(snapshot: DataSnapshot) {
-//        guard let snapshotValue = snapshot.value as? [String: Any]
-//
-//              //let title = snapshotValue[Constants.titleKey] as? String
-////               let url = snapshotValue[Constants.urlKey] as? String
-//            else { return nil }
-//        self.title = ""
-//        self.url = ""
-//        self.image = #imageLiteral(resourceName: "pfoto2")
-//    }
     
     func convertStreetDictionary() -> [String: Any]{
         [Constants.titleKey: title, Constants.urlKey: url]

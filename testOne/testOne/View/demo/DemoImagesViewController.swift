@@ -14,22 +14,22 @@ class DemoImagesViewController: UIViewController {
     @IBOutlet weak var button: UIButton!
     var image: UIImage?
     var imageUrl: String?
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
         startSetting()
     }
-    public func startSetting(){
+    public func startSetting() {
         button.layer.cornerRadius = button.frame.size.height / 2
         guard let image = imageUrl,
             let urlImg = URL(string: image) else { return }
-        URLSession.shared.dataTask(with: urlImg) { data, _, _ in
+        URLSession.shared.dataTask(with: urlImg) { [weak self] data, _, _ in
             let queue = DispatchQueue.global(qos: .utility)
             queue.async {
                 if let data = data, let image = UIImage(data: data) {
                     DispatchQueue.main.async {
-                        self.imagesColectionView.image = image
-                        self.indicator.stopAnimating()
+                        self?.imagesColectionView.image = image
+                        self?.indicator.stopAnimating()
                     }
                 }
             }

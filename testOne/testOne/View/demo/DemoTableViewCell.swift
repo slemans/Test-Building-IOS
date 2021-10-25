@@ -10,7 +10,7 @@ import UIKit
 protocol DelegatReturnTable: AnyObject {
     func returnTableReview(index: Int, street: Street)
     func deleteImageWithtable(index: Int, nameCell: [String])
-    func openImage(image: UIImage?, images: String?)
+    func openImage(images: String?)
 }
 
 
@@ -73,8 +73,6 @@ class DemoTableViewCell: UITableViewCell {
         buttonDelete.layer.shadowOpacity = 0.3
         buttonDelete.layer.shadowOffset = CGSize(width: 2.5, height: 2.5)
     }
-
-
 
     @IBAction func buttonAddImages() {
         delegate?.returnTableReview(index: indexStreet, street: oneIsStreet)
@@ -143,9 +141,8 @@ extension DemoTableViewCell: UICollectionViewDataSource, UICollectionViewDelegat
 
 
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let recipeData = oneIsStreet.arrayImage[indexPath.row]?.image
         let image = oneIsStreet.arrayImage[indexPath.row]?.url
-        delegate?.openImage(image: recipeData, images: image)
+        delegate?.openImage(images: image)
     }
 }
 
