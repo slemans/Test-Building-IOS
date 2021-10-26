@@ -6,19 +6,15 @@
 //
 
 import UIKit
+import Firebase
 
 class ViewController: UIViewController {
 
-    let viewTop: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        return view
-    }()
+    
+    
     let tableView: UITableView = {
-//        tableView = UITableView(frame: view.bounds, style: .grouped)
         var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-//        tableView.autoresizingMask = [.flexibleWidth, .flexibleHeight]
         tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
         tableView.rowHeight = UITableView.automaticDimension
         tableView.register(StreetTableViewCell.self, forCellReuseIdentifier: "contactCell")
@@ -38,23 +34,92 @@ class ViewController: UIViewController {
         button.addTarget(self, action: #selector(pressed(_:)), for: .touchUpInside)
         return button
     }()
+    
+    let viewTop: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        return view
+    }()
 
     // cancel demo
 
     var arrayStreet: [Street] = []
+    var indexCellWherePutImages: Int?
+    var streetWhyPick: Street!
+    let store = Storage.storage()
 
     override func viewDidLoad() {
         super.viewDidLoad()
         startSetting()
+        
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        FirebaseDatabaseProject.ref.observe(.value) { [weak self] snapshot in
+            var arrayStreetTwo = [Street]()
+            for item in snapshot.children {
+                guard let snapshot = item as? DataSnapshot,
+                    let street = Street(snapshot: snapshot) else { continue }
+                arrayStreetTwo.append(street)
+            }
+            self?.arrayStreet = arrayStreetTwo
+            self?.tableView.reloadData()
+        }
+    }
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        FirebaseDatabaseProject.ref.removeAllObservers()
+    }
+    
+    
+    private func startSetting() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
-//        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
+        tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.separatorStyle = .none
+        
+        view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        view.addSubview(viewTop)
+        setupViewTop()
+        view.addSubview(tableView)
+        setupTableView()
+        
+        view.addSubview(buttonAddCell)
+        setupButton()
     }
+    
+    
 
     @objc func pressed(_ sender: UIButton) {
-//        arrayStreet.append(Street(lable: "Название локации", arrayImage: []))
-        tableView.reloadData()
+        let newStreetTask = Street(lable: "Название локации")
+        arrayStreet.append(newStreetTask)
+        let newSteet = FirebaseDatabaseProject.ref.child("location\(arrayStreet.count)")
+        newSteet.setValue(newStreetTask.convertStreetDictionary())
+    }
+    
+    func uploadImageFireStorege(photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        let storeRef = store.reference().child("photo").child(GetDate.time)
+        guard let data = photo.jpegData(compressionQuality: 0.4) else { return }
+        let metaDate = StorageMetadata()
+        metaDate.contentType = "image/jpeg"
+
+        storeRef.putData(data, metadata: metaDate) { (metadata, error) in
+            guard let _ = metadata else {
+                completion(.failure(error!))
+                return
+            }
+            storeRef.downloadURL { (url, error) in
+                guard let url = url else {
+                    completion(.failure(error!))
+                    return
+                }
+                completion(.success(url))
+            }
+        }
     }
 
 
@@ -63,42 +128,13 @@ class ViewController: UIViewController {
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: viewTop.bottomAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-
-
     }
-
-    // demo
-//    func setupView1() {
-//        view1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-//        view1.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1 / 3).isActive = true
-//        view1.heightAnchor.constraint(equalToConstant: 100).isActive = true
-//        view1.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//    }
-//    func setupView2() {
-//        view2.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-//        view2.widthAnchor.constraint(equalTo: view.widthAnchor, multiplier: 1 / 3).isActive = true
-//        view2.heightAnchor.constraint(equalToConstant: 100).isActive = true
-//        view2.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
-//    }
-    // cancel demo
-
-
-
-    func startSetting() {
-        view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
-        view.addSubview(viewTop)
-        setupViewTop()
-        view.addSubview(tableView)
-        setupTableView()
-        view.addSubview(buttonAddCell)
-        setupButton()
-    }
+   
     // кнопка addCell
     func setupButton() {
         buttonAddCell.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25).isActive = true
         buttonAddCell.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
     }
-
     // верхняя часть
     func setupViewTop() {
         viewTop.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
@@ -130,9 +166,20 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! StreetTableViewCell
-        cell.backgroundColor = .red
+        
+//        cell.delegate = self
+        cell.indexStreet = indexPath.row
         let street = arrayStreet[indexPath.row]
-        cell.textField.placeholder = street.lable
+        cell.oneIsStreet = street
+        cell.textFieldMain.placeholder = street.lable
+        
+        if street.arrayImage.count >= 1 {
+            cell.stackViewFive.isHidden = false
+//            cell.collectionView.reloadData()
+        } else {
+            cell.stackViewFive.isHidden = true
+//            cell.collectionView.reloadData()
+        }
         return cell
     }
 }

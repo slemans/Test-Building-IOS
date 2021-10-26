@@ -12,11 +12,9 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var button: UIButton!
 
-//    let demoTableViewCellVC = DemoTableViewCell()
     var arrayStreet: [Street] = []
     var indexCellWherePutImages: Int?
     var streetWhyPick: Street!
-
     let store = Storage.storage()
 
 
@@ -48,7 +46,6 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
         super.viewWillDisappear(animated)
         // удаляем всех обзерверов
         FirebaseDatabaseProject.ref.removeAllObservers()
-        
     }
 
     @IBAction func buttonAc() {
@@ -58,22 +55,24 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
         // создание новый улицы в firebase
         let newSteet = FirebaseDatabaseProject.ref.child("location\(arrayStreet.count)")
         newSteet.setValue(newStreetTask.convertStreetDictionary())
-        
     }
 
-
+    // не добавил еще
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let DemoImagesVC = segue.destination as? DemoImagesViewController {
             DemoImagesVC.imageUrl = sender as? String
         }
     }
-    public func startSetting() {
+    
+    
+    private func startSetting() {
         tableView.dataSource = self
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
         button.layer.cornerRadius = button.frame.size.height / 2
     }
+    
     func uploadImageFireStorege(photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
         let storeRef = store.reference().child("photo").child(GetDate.time)
         guard let data = photo.jpegData(compressionQuality: 0.4) else { return }
@@ -104,6 +103,7 @@ extension DemoViewController: UITableViewDelegate, UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "cellDemo", for: indexPath) as! DemoTableViewCell
+        
         cell.delegate = self
         cell.indexStreet = indexPath.row
         let street = arrayStreet[indexPath.row]
