@@ -8,13 +8,10 @@
 import UIKit
 
 protocol DelegatReturnTables: AnyObject {
-    
+    func returnTableReview(index: Int, street: Street)
 }
 
 class StreetTableViewCell: UITableViewCell {
-
-    weak var coverView: UIImageView!
-    weak var titleLabel: UILabel!
     
     
     var stackViewOne = UIStackView()
@@ -26,8 +23,28 @@ class StreetTableViewCell: UITableViewCell {
     var oneIsStreet: Street!
     var indexStreet: Int!
     weak var delegate: DelegatReturnTables?
-
-
+    
+    private let collectionView: UICollectionView = {
+        let viewLayout = UICollectionViewFlowLayout()
+        let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
+        collectionView.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.9529411765, blue: 0.9568627451, alpha: 1)
+        collectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "collectionCell")
+        return collectionView
+    }()
+    
+    
+    let buttonAddPhoto: UIButton = {
+        let button = UIButton()
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 22, weight: .regular, scale: .large)
+        let image = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
+        button.setImage(image, for: .normal)
+        button.tintColor = .black
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1, constant: 0)])
+        button.layer.cornerRadius = 20
+//        button.addTarget(self, action: #selector(addNewPhoto(_:)), for: .touchUpInside)
+        return button
+    }()
     
     let textFieldMain: UITextField = {
         let textField = UITextField()
@@ -66,11 +83,16 @@ class StreetTableViewCell: UITableViewCell {
         print("Удалить все фото")
     }
     
-
+    @objc func addNewPhoto(_ sender: UIButton) {
+        delegate?.returnTableReview(index: indexStreet, street: oneIsStreet)
+    }
+    
     
     func initialize() {
-        
-        
+        buttonAddPhoto.addTarget(self, action: #selector(addNewPhoto(_:)), for: .touchUpInside)
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.dataSource = self
+        collectionView.delegate = self
         
         /// четвертый стек
         
@@ -79,7 +101,9 @@ class StreetTableViewCell: UITableViewCell {
         stackViewFourOne.axis = .vertical
         stackViewFourOne.distribution = .fill
         stackViewFourOne.alignment = .fill
+        stackViewFourOne.backgroundColor = #colorLiteral(red: 0.4666666687, green: 0.7647058964, blue: 0.2666666806, alpha: 0)
         stackViewFourOne.spacing = 0
+        stackViewFourOne.layer.cornerRadius = 20
         stackViewFourOne.translatesAutoresizingMaskIntoConstraints = false
         
         // четверты стек
@@ -89,35 +113,27 @@ class StreetTableViewCell: UITableViewCell {
         stackViewFour.distribution = .fill
         stackViewFour.alignment = .fill
         stackViewFour.spacing = 0
+        stackViewFour.contentMode = .scaleToFill
+        stackViewFour.semanticContentAttribute = .unspecified
+        stackViewFour.layer.cornerRadius = 20
         stackViewFour.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.9529411765, blue: 0.9568627451, alpha: 1)
         stackViewFour.translatesAutoresizingMaskIntoConstraints = false
         
-        
-        
         // кнопка добавить новое фото
-        let buttonAddPhoto = UIButton(type: .custom)
-        buttonAddPhoto.setImage(UIImage(named: "plus.circle.fill"), for:  .normal)
-//        buttonAddPhoto.setTitle(("+"), for: .normal) plus.circle.fill
-        buttonAddPhoto.tintColor = .black
-        buttonAddPhoto.confuge
-        buttonAddPhoto.translatesAutoresizingMaskIntoConstraints = false
-        buttonAddPhoto.backgroundColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
-        buttonAddPhoto.tintColor = .white
-        buttonAddPhoto.titleLabel!.textAlignment = .center
-        buttonAddPhoto.layer.cornerRadius = 20
-//        buttonAddPhoto.addTarget(self, action: #selector(pressedDeleteAll(_:)), for: .touchUpInside)
-        stackViewFourOne.addArrangedSubview(buttonAddPhoto)
+         stackViewFourOne.addArrangedSubview(buttonAddPhoto)
         
         
         // второй стек внутри четвертого стека
-//        stackViewFive.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.9529411765, blue: 0.9568627451, alpha: 1)
-        stackViewFive.backgroundColor = #colorLiteral(red: 0.2588235438, green: 0.7568627596, blue: 0.9686274529, alpha: 1)
+        stackViewFive.addArrangedSubview(collectionView)
         stackViewFive.axis = .vertical
         stackViewFive.distribution = .fill
         stackViewFive.alignment = .fill
         stackViewFive.spacing = 0
+        stackViewFive.contentMode = .scaleToFill
+        stackViewFive.semanticContentAttribute = .unspecified
+        stackViewFive.layoutMargins = UIEdgeInsets(top: 0, left: 0, bottom: 10, right: 10)
+        stackViewFive.isLayoutMarginsRelativeArrangement = true
         stackViewFive.translatesAutoresizingMaskIntoConstraints = false
-        
         
         
         // третий стек
@@ -156,7 +172,6 @@ class StreetTableViewCell: UITableViewCell {
         stackViewTwo.layer.shadowRadius = 6.0
         stackViewTwo.layer.cornerRadius = 20
         
-        
         // первый стек
         stackViewOne.addArrangedSubview(stackViewTwo)
         stackViewOne.axis = .vertical
@@ -183,40 +198,22 @@ class StreetTableViewCell: UITableViewCell {
             stackViewOne.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             stackViewOne.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             stackViewOne.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -25),
-            
-            textFieldMain.leftAnchor.constraint(equalTo: stackViewFour.leftAnchor),
-            textFieldMain.topAnchor.constraint(equalTo: stackViewFour.topAnchor),
-            textFieldMain.bottomAnchor.constraint(equalTo: stackViewFour.bottomAnchor),
-            
-            
-            stackViewFourOne.rightAnchor.constraint(equalTo: stackViewFour.rightAnchor),
-            stackViewFourOne.topAnchor.constraint(equalTo: stackViewFour.topAnchor),
-            stackViewFourOne.bottomAnchor.constraint(equalTo: stackViewFour.bottomAnchor),
-            
-            stackViewFive.heightAnchor.constraint(equalToConstant: 140),
+            stackViewFive.heightAnchor.constraint(equalToConstant: 125),
             buttonAddPhoto.heightAnchor.constraint(equalToConstant: 42),
-            stackViewFour.heightAnchor.constraint(equalToConstant: 45)
+            stackViewFour.heightAnchor.constraint(equalToConstant: 45),
+            buttonAddPhoto.rightAnchor.constraint(equalTo: stackViewFourOne.rightAnchor),
+            buttonAddPhoto.leftAnchor.constraint(equalTo: stackViewFourOne.leftAnchor),
+            buttonAddPhoto.bottomAnchor.constraint(equalTo: stackViewFourOne.bottomAnchor),
+            buttonAddPhoto.topAnchor.constraint(equalTo: stackViewFourOne.topAnchor),
             
-//            buttonAddPhoto.rightAnchor.constraint(equalTo: stackViewFourOne.rightAnchor),
-//            buttonAddPhoto.leftAnchor.constraint(equalTo: stackViewFourOne.leftAnchor),
-//            buttonAddPhoto.bottomAnchor.constraint(equalTo: stackViewFourOne.bottomAnchor),
-//            buttonAddPhoto.topAnchor.constraint(equalTo: stackViewFourOne.topAnchor)
-            
+            collectionView.topAnchor.constraint(equalTo: stackViewFive.topAnchor),
+            collectionView.bottomAnchor.constraint(equalTo: stackViewFive.bottomAnchor),
+            collectionView.leftAnchor.constraint(equalTo: stackViewFive.leftAnchor),
+            collectionView.rightAnchor.constraint(equalTo: stackViewFive.rightAnchor, constant: -10)
            
             ])
-
-
-
     }
-
-
-//    override func prepareForReuse() {
-//        super.prepareForReuse()
-//
-//        self.coverView.image = nil
-//    }
-    
-    
+   
     func settingButtonDeleteAll(){
         buttonDelete.isHidden = true
         buttonDelete.layer.shadowColor = #colorLiteral(red: 0.3803921569, green: 0.4156862745, blue: 0.4156862745, alpha: 1)
@@ -228,5 +225,60 @@ class StreetTableViewCell: UITableViewCell {
         buttonDelete.leftAnchor.constraint(equalTo: contentView.leftAnchor, constant: 120).isActive = true
         buttonDelete.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -120).isActive = true
         buttonDelete.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
+    }
+}
+
+
+extension StreetTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return oneIsStreet.arrayImage.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "collectionCell", for: indexPath) as! CollectionViewCell
+        
+        let imageStreet = oneIsStreet.arrayImage[indexPath.row]
+        cell.configure(images: imageStreet)
+//        cell.delegate = self
+        if buttonDelete.isHidden == false {
+            cell.buttonDelete.isHidden = false
+        } else {
+            cell.buttonDelete.isHidden = true
+        }
+        if imageStreet?.pick != true {
+            cell.buttonDelete.setTitle("", for: .normal)
+        } else {
+            cell.buttonDelete.setTitle("x", for: .normal)
+        }
+        cell.indexCollectionViewCell = indexPath.row
+        cell.nameCollectionViewCell = imageStreet?.title
+        return cell
+    }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let image = oneIsStreet.arrayImage[indexPath.row]?.url
+        //        delegate?.openImage(images: image)
+    }
+    
+    
+}
+
+extension StreetTableViewCell: UICollectionViewDelegateFlowLayout {
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        let itemPerRow: CGFloat = 3.0
+        let padding = 5 * (itemPerRow + 2.0)
+        let availableWidth = collectionView.frame.width - padding
+        let widthPerItem = availableWidth / itemPerRow
+//        let height = CGFloat(125)
+        let height = widthPerItem
+        return CGSize(width: widthPerItem, height: height)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 5
+    }
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 0
     }
 }

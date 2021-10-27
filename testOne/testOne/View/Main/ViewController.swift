@@ -10,8 +10,6 @@ import Firebase
 
 class ViewController: UIViewController {
 
-    
-    
     let tableView: UITableView = {
         var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
@@ -167,7 +165,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! StreetTableViewCell
         
-//        cell.delegate = self
+        cell.delegate = self
         cell.indexStreet = indexPath.row
         let street = arrayStreet[indexPath.row]
         cell.oneIsStreet = street
@@ -181,5 +179,42 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 //            cell.collectionView.reloadData()
         }
         return cell
+    }
+}
+
+extension ViewController: DelegatReturnTables {
+    func returnTableReview(index: Int, street: Street) {
+        indexCellWherePutImages = index
+        streetWhyPick = street
+        cooseImagePicker(source: .photoLibrary)
+    }
+  
+}
+
+extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    func cooseImagePicker(source: UIImagePickerController.SourceType) {
+        if UIImagePickerController.isSourceTypeAvailable(source) {
+            let imagePicker = UIImagePickerController()
+            imagePicker.delegate = self
+            imagePicker.allowsEditing = false
+            imagePicker.sourceType = source
+            present(imagePicker, animated: true)
+        }
+    }
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey: Any]) {
+        guard let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }
+        uploadImageFireStorege(photo: image) { [weak self] (result) in
+            switch result {
+            case .success(let url):
+                let imgUrl = url.absoluteString
+                let newImgTask = Images(title: GetDate.time, url: imgUrl)
+                guard let index = self?.indexCellWherePutImages else { return }
+                let newDemoStreet = self?.arrayStreet[index].ref?.child("arrayImage").child("\(GetDate.time)")
+                newDemoStreet?.setValue(newImgTask.convertStreetDictionary())
+            case .failure(let error):
+                print(error)
+            }
+        }
+
     }
 }

@@ -102,11 +102,10 @@
                                                                                                 <constraint firstAttribute="width" secondItem="sda-Rj-0bD" secondAttribute="height" multiplier="1:1" id="1Pl-pi-1QG"/>
                                                                                                 <constraint firstAttribute="height" constant="40" id="hEK-5q-0va"/>
                                                                                             </constraints>
-                                                                                            <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                                                                            <fontDescription key="fontDescription" type="system" pointSize="22"/>
                                                                                             <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                             <state key="normal">
                                                                                                 <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                                                                <color key="titleShadowColor" white="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                                 <imageReference key="image" image="plus.circle.fill" catalog="system" symbolScale="large"/>
                                                                                                 <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="22"/>
                                                                                             </state>
@@ -125,12 +124,6 @@
                                                                             </subviews>
                                                                             <constraints>
                                                                                 <constraint firstAttribute="height" constant="45" id="0ew-ht-8yn"/>
-                                                                                <constraint firstAttribute="bottom" secondItem="whJ-ce-tWt" secondAttribute="bottom" id="1Er-xQ-RFA"/>
-                                                                                <constraint firstAttribute="bottom" secondItem="995-dU-4me" secondAttribute="bottom" id="1iB-5d-MbE"/>
-                                                                                <constraint firstItem="995-dU-4me" firstAttribute="top" secondItem="EQb-P5-bJ0" secondAttribute="top" id="hwq-Up-NL4"/>
-                                                                                <constraint firstItem="whJ-ce-tWt" firstAttribute="top" secondItem="EQb-P5-bJ0" secondAttribute="top" id="vF2-Pf-Jjn"/>
-                                                                                <constraint firstItem="whJ-ce-tWt" firstAttribute="leading" secondItem="EQb-P5-bJ0" secondAttribute="leading" id="z7L-jw-4AN"/>
-                                                                                <constraint firstAttribute="trailing" secondItem="995-dU-4me" secondAttribute="trailing" id="zey-U6-VVT"/>
                                                                             </constraints>
                                                                         </stackView>
                                                                         <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="STh-Rg-tX2">
@@ -154,7 +147,7 @@
                                                                                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                                                 <subviews>
                                                                                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dDH-zC-y0E">
-                                                                                                        <rect key="frame" x="0.0" y="-0.33333396911621094" width="128" height="128"/>
+                                                                                                        <rect key="frame" x="0.0" y="0.0" width="128" height="128"/>
                                                                                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                                                                                     </imageView>
                                                                                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" hasAttributedTitle="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xcl-I3-utj">
@@ -194,6 +187,7 @@
                                                                                 </collectionView>
                                                                             </subviews>
                                                                             <constraints>
+                                                                                <constraint firstAttribute="trailing" secondItem="EJw-XF-2oN" secondAttribute="trailing" constant="10" id="0L9-4p-Sf2"/>
                                                                                 <constraint firstAttribute="height" constant="140" id="LnR-8H-wOj"/>
                                                                                 <constraint firstAttribute="bottom" secondItem="EJw-XF-2oN" secondAttribute="bottom" id="jxi-ZV-tza"/>
                                                                                 <constraint firstItem="EJw-XF-2oN" firstAttribute="top" secondItem="STh-Rg-tX2" secondAttribute="top" id="ofl-oz-EcI"/>

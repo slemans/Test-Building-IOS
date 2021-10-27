@@ -153,8 +153,8 @@ extension DemoTableViewCell: UICollectionViewDelegateFlowLayout {
         let padding = 5 * (itemPerRow + 2.0)
         let availableWidth = collectionView.frame.width - padding
         let widthPerItem = availableWidth / itemPerRow
-        let height = CGFloat(125)
-        return CGSize(width: widthPerItem, height: height)
+//        let height = CGFloat(125)
+        return CGSize(width: widthPerItem, height: widthPerItem)
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         return UIEdgeInsets(top: 5, left: 0, bottom: 0, right: 0)
