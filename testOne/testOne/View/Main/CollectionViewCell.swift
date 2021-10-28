@@ -13,37 +13,36 @@ protocol DelegatDeleteCollectionsViewCell: AnyObject {
 
 class CollectionViewCell: UICollectionViewCell {
     weak var delegate: DelegatDeleteCollectionsViewCell?
-//    let colorButoonDelete: UIColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
     var indexCollectionViewCell: Int!
     var nameCollectionViewCell: String!
     
-    let indicator: UIActivityIndicatorView = {
+    private let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
         indicator.style = .large
         indicator.startAnimating()
         return indicator
     }()
-    let showCaseImageView: UIImageView = {
+    private let showCaseImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.layer.masksToBounds = true
-        imageView.layer.cornerRadius = 10
+        imageView.layer.cornerRadius = NumberCGFloat.ten
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
     let buttonDelete: UIButton = {
         let button = UIButton()
-        button.tintColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
-        button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1, constant: 0)])
-        button.backgroundColor = UIColor.white
+        button.tintColor = ColorUIColor.pinkCustom
+        button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: NumberCGFloat.one, constant: NumberCGFloat.zero)])
+        button.backgroundColor = ColorUIColor.white
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.layer.borderWidth = 1
-        button.layer.borderColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
-        button.layer.cornerRadius = 30 / 2
-        button.heightAnchor.constraint(equalToConstant: 30).isActive = true
-        button.setTitleColor(#colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1), for: .normal)
+        button.layer.borderWidth = NumberCGFloat.one
+        button.layer.borderColor = ColorCGColor.pinkCustom
+        button.layer.cornerRadius = NumberCGFloat.thirty / NumberCGFloat.two
+        button.heightAnchor.constraint(equalToConstant: NumberCGFloat.thirty).isActive = true
+        button.setTitleColor(ColorUIColor.pinkCustom, for: .normal)
         return button
     }()
 
@@ -56,18 +55,16 @@ class CollectionViewCell: UICollectionViewCell {
         delegate?.deleteCollectionsViewCell(index: indexCollectionViewCell, title: nameCollectionViewCell)
     }
     
-    func initialize() {
+    private func initialize() {
         buttonDelete.addTarget(self, action: #selector(buttonDeleteImageAction(_:)), for: .touchUpInside)
         buttonDelete.isHidden = true
         contentView.addSubview(showCaseImageView)
         contentView.addSubview(buttonDelete)
         contentView.addSubview(indicator)
-
-        
-        showCaseImageView.frame.contains(CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.width))
+        showCaseImageView.frame.contains(CGRect(x: NumberCGFloat.zero, y: NumberCGFloat.zero, width: contentView.frame.size.width, height: contentView.frame.size.width))
         NSLayoutConstraint.activate([
-            buttonDelete.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 12),
-            buttonDelete.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
+            buttonDelete.topAnchor.constraint(equalTo: contentView.topAnchor, constant: NumberCGFloat.twelve),
+            buttonDelete.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: NumberCGFloat.twelveMinus),
             indicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             indicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             showCaseImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
@@ -76,7 +73,7 @@ class CollectionViewCell: UICollectionViewCell {
             showCaseImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ])
     }
-    func configure(images: Images?) {
+    public func configure(images: Images?) {
         guard let images = images else { return }
         putImage(image: images.url)
     }

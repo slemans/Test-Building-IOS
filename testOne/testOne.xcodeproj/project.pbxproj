@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		7F101AE4271ACCB600BAE787 /* DemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F101AE3271ACCB600BAE787 /* DemoCollectionViewCell.swift */; };
-		7F101AE6271D780900BAE787 /* DemoImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */; };
 		7F101AEA271F176C00BAE787 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7F101AE9271F176C00BAE787 /* GoogleService-Info.plist */; };
 		7F101AEF271F359E00BAE787 /* FirebaseDatabase in Frameworks */ = {isa = PBXBuildFile; productRef = 7F101AEE271F359E00BAE787 /* FirebaseDatabase */; };
 		7F101AF1271F359E00BAE787 /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = 7F101AF0271F359E00BAE787 /* FirebaseStorage */; };
@@ -22,18 +20,14 @@
 		7F6B800B271861B100D47DE2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7F6B800A271861B100D47DE2 /* Assets.xcassets */; };
 		7F6B800E271861B100D47DE2 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7F6B800C271861B100D47DE2 /* LaunchScreen.storyboard */; };
 		7F6B8028271873E300D47DE2 /* a_Oswald.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F6B8027271873E300D47DE2 /* a_Oswald.ttf */; };
-		7F6B802A271880BD00D47DE2 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B8029271880BD00D47DE2 /* DemoViewController.swift */; };
 		7F6B802D2718A5F000D47DE2 /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B802C2718A5F000D47DE2 /* Street.swift */; };
 		7F6B802F2718B25900D47DE2 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B802E2718B25900D47DE2 /* TableViewCell.swift */; };
-		7F6B80322718B2DD00D47DE2 /* DemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */; };
 		7FDBCBE027299F7D0004DAE7 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDBCBDF27299F7D0004DAE7 /* CollectionViewCell.swift */; };
 		7FDBCBE2272AD3810004DAE7 /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDBCBE1272AD3800004DAE7 /* ImagesViewController.swift */; };
 		7FDBCBE4272AF4B80004DAE7 /* ConstantsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDBCBE3272AF4B80004DAE7 /* ConstantsImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		7F101AE3271ACCB600BAE787 /* DemoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoCollectionViewCell.swift; sourceTree = "<group>"; };
-		7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoImagesViewController.swift; sourceTree = "<group>"; };
 		7F101AE9271F176C00BAE787 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		7F101AF3271F384900BAE787 /* FirebaseStorageProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseStorageProject.swift; sourceTree = "<group>"; };
 		7F101AF5271F39ED00BAE787 /* FirebaseDatabaseProject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseDatabaseProject.swift; sourceTree = "<group>"; };
@@ -47,10 +41,8 @@
 		7F6B800D271861B100D47DE2 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		7F6B800F271861B100D47DE2 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		7F6B8027271873E300D47DE2 /* a_Oswald.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = a_Oswald.ttf; sourceTree = "<group>"; };
-		7F6B8029271880BD00D47DE2 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		7F6B802C2718A5F000D47DE2 /* Street.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Street.swift; sourceTree = "<group>"; };
 		7F6B802E2718B25900D47DE2 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
-		7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewCell.swift; sourceTree = "<group>"; };
 		7FDBCBDF27299F7D0004DAE7 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		7FDBCBE1272AD3800004DAE7 /* ImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
 		7FDBCBE3272AF4B80004DAE7 /* ConstantsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsImage.swift; sourceTree = "<group>"; };
@@ -140,7 +132,6 @@
 		7F6B8017271861DD00D47DE2 /* View */ = {
 			isa = PBXGroup;
 			children = (
-				7F6B80302718B2CB00D47DE2 /* demo */,
 				7F6B80332719AEFB00D47DE2 /* Main */,
 			);
 			path = View;
@@ -160,17 +151,6 @@
 				7F6B802C2718A5F000D47DE2 /* Street.swift */,
 			);
 			path = Models;
-			sourceTree = "<group>";
-		};
-		7F6B80302718B2CB00D47DE2 /* demo */ = {
-			isa = PBXGroup;
-			children = (
-				7F6B8029271880BD00D47DE2 /* DemoViewController.swift */,
-				7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */,
-				7F101AE3271ACCB600BAE787 /* DemoCollectionViewCell.swift */,
-				7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */,
-			);
-			path = demo;
 			sourceTree = "<group>";
 		};
 		7F6B80332719AEFB00D47DE2 /* Main */ = {
@@ -273,19 +253,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				7F6B8006271861AE00D47DE2 /* ViewController.swift in Sources */,
-				7F101AE6271D780900BAE787 /* DemoImagesViewController.swift in Sources */,
 				7F6B8002271861AE00D47DE2 /* AppDelegate.swift in Sources */,
 				7F6B802F2718B25900D47DE2 /* TableViewCell.swift in Sources */,
 				7F101AF6271F39ED00BAE787 /* FirebaseDatabaseProject.swift in Sources */,
-				7F101AE4271ACCB600BAE787 /* DemoCollectionViewCell.swift in Sources */,
 				7F101AF4271F384900BAE787 /* FirebaseStorageProject.swift in Sources */,
 				7F6B8004271861AE00D47DE2 /* SceneDelegate.swift in Sources */,
 				7FDBCBE2272AD3810004DAE7 /* ImagesViewController.swift in Sources */,
 				7FDBCBE4272AF4B80004DAE7 /* ConstantsImage.swift in Sources */,
 				7F6B802D2718A5F000D47DE2 /* Street.swift in Sources */,
 				7FDBCBE027299F7D0004DAE7 /* CollectionViewCell.swift in Sources */,
-				7F6B80322718B2DD00D47DE2 /* DemoTableViewCell.swift in Sources */,
-				7F6B802A271880BD00D47DE2 /* DemoViewController.swift in Sources */,
 				7F101AF927200D9500BAE787 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

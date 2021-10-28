@@ -13,26 +13,26 @@ class ViewController: UIViewController {
     let tableView: UITableView = {
         var tableView = UITableView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        tableView.backgroundColor = ColorUIColor.greyThree
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(TableViewCell.self, forCellReuseIdentifier: "contactCell")
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: TitleCell.tableCell)
         return tableView
     }()
-    let buttonAddCell: UIButton = {
+    private let buttonAddCell: UIButton = {
         let button = UIButton(type: .system)
-        let largeConfig = UIImage.SymbolConfiguration(pointSize: 55, weight: .regular, scale: .large)
-        let image = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: NumberCGFloat.fiftyFive, weight: .regular, scale: .large)
+        let image = UIImage(systemName: ImageCustomTitle.plusCircle, withConfiguration: largeConfig)
         button.setImage(image, for: .normal)
         button.tintColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1, constant: 0)])
-        button.layer.cornerRadius = 20
-        button.heightAnchor.constraint(equalToConstant: 70).isActive = true
-        button.widthAnchor.constraint(equalToConstant: 70).isActive = true
+        button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: NumberCGFloat.one, constant: NumberCGFloat.zero)])
+        button.layer.cornerRadius = NumberCGFloat.twenty
+        button.heightAnchor.constraint(equalToConstant: NumberCGFloat.seventy).isActive = true
+        button.widthAnchor.constraint(equalToConstant: NumberCGFloat.seventy).isActive = true
         return button
     }()
 
-    let viewTop: UIView = {
+    private let viewTop: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
@@ -78,9 +78,9 @@ class ViewController: UIViewController {
         }
     }
 
-    func uploadImageFireStorege(photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
-        let storeRef = store.reference().child("photo").child(GetDate.time)
-        guard let data = photo.jpegData(compressionQuality: 0.4) else { return }
+    private func uploadImageFireStorege(photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
+        let storeRef = store.reference().child(Constants.photoKey).child(GetDate.time)
+        guard let data = photo.jpegData(compressionQuality: NumberCGFloat.zeroFore) else { return }
         let metaDate = StorageMetadata()
         metaDate.contentType = "image/jpeg"
 
@@ -100,22 +100,22 @@ class ViewController: UIViewController {
     }
 
 
-    func setupTableView() {
+    private func setupTableView() {
         tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         tableView.topAnchor.constraint(equalTo: viewTop.bottomAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
-    func setupButton() {
-        buttonAddCell.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25).isActive = true
-        buttonAddCell.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+    private func setupButton() {
+        buttonAddCell.rightAnchor.constraint(equalTo: view.rightAnchor, constant: NumberCGFloat.twentyFiveMinus).isActive = true
+        buttonAddCell.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: NumberCGFloat.fortyMinus).isActive = true
     }
 
     func setupViewTop() {
         viewTop.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         viewTop.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        viewTop.topAnchor.constraint(equalTo: view.topAnchor, constant: 30).isActive = true
+        viewTop.topAnchor.constraint(equalTo: view.topAnchor, constant: NumberCGFloat.thirty).isActive = true
         viewTop.heightAnchor.constraint(equalToConstant: 150).isActive = true
         let imageTop = UIImageView()
         imageTop.image = #imageLiteral(resourceName: "logo")
@@ -139,7 +139,7 @@ class ViewController: UIViewController {
         tableView.delegate = self
         tableView.tableFooterView = UIView()
         tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.separatorInset = UIEdgeInsets(top: NumberCGFloat.zero, left: NumberCGFloat.zero, bottom: NumberCGFloat.zero, right: NumberCGFloat.zero)
         tableView.separatorStyle = .none
 
         view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
@@ -158,13 +158,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! TableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: TitleCell.tableCell, for: indexPath) as! TableViewCell
         cell.delegate = self
         cell.indexStreet = indexPath.row
         let street = arrayStreet[indexPath.row]
         cell.oneIsStreet = street
         cell.textFieldMain.placeholder = street.lable
-        if street.arrayImage.count >= 1 {
+        if street.arrayImage.count >= NumberInt.one {
             cell.stackViewFive.isHidden = false
             cell.collectionView.reloadData()
         } else {
@@ -177,13 +177,13 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: DelegatReturnTables {
     func openImages(images: String?) {
-        performSegue(withIdentifier: "seguePhotos", sender: images)
+        performSegue(withIdentifier: SegueTitle.photos, sender: images)
     }
     func deleteImageWithtables(index: Int, nameCell: [String]) {
         for title in nameCell {
             for (_, cell) in arrayStreet[index].arrayImage.enumerated() {
                 if cell?.title == title {
-                    let ref = arrayStreet[index].ref?.child("arrayImage").child(title)
+                    let ref = arrayStreet[index].ref?.child(Constants.arrayImageKey).child(title)
                     ref?.removeValue { _, _ in }
                 }
             }
@@ -215,12 +215,11 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
                 let imgUrl = url.absoluteString
                 let newImgTask = Images(title: GetDate.time, url: imgUrl)
                 guard let index = self?.indexCellWherePutImages else { return }
-                let newDemoStreet = self?.arrayStreet[index].ref?.child("arrayImage").child("\(GetDate.time)")
+                let newDemoStreet = self?.arrayStreet[index].ref?.child(Constants.arrayImageKey).child("\(GetDate.time)")
                 newDemoStreet?.setValue(newImgTask.convertStreetDictionary())
             case .failure(let error):
                 print(error)
             }
         }
-
     }
 }
