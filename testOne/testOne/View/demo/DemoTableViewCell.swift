@@ -180,6 +180,7 @@ extension DemoTableViewCell: DelegatDeleteCollectionViewCell {
                     arrayNameImages.remove(at: indexArray)
                 }
             }
+            collectionView.reloadData()
         }
     }
 }

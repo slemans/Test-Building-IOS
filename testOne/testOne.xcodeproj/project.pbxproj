@@ -24,9 +24,11 @@
 		7F6B8028271873E300D47DE2 /* a_Oswald.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7F6B8027271873E300D47DE2 /* a_Oswald.ttf */; };
 		7F6B802A271880BD00D47DE2 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B8029271880BD00D47DE2 /* DemoViewController.swift */; };
 		7F6B802D2718A5F000D47DE2 /* Street.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B802C2718A5F000D47DE2 /* Street.swift */; };
-		7F6B802F2718B25900D47DE2 /* StreetTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B802E2718B25900D47DE2 /* StreetTableViewCell.swift */; };
+		7F6B802F2718B25900D47DE2 /* TableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B802E2718B25900D47DE2 /* TableViewCell.swift */; };
 		7F6B80322718B2DD00D47DE2 /* DemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */; };
 		7FDBCBE027299F7D0004DAE7 /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDBCBDF27299F7D0004DAE7 /* CollectionViewCell.swift */; };
+		7FDBCBE2272AD3810004DAE7 /* ImagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDBCBE1272AD3800004DAE7 /* ImagesViewController.swift */; };
+		7FDBCBE4272AF4B80004DAE7 /* ConstantsImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7FDBCBE3272AF4B80004DAE7 /* ConstantsImage.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -47,9 +49,11 @@
 		7F6B8027271873E300D47DE2 /* a_Oswald.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = a_Oswald.ttf; sourceTree = "<group>"; };
 		7F6B8029271880BD00D47DE2 /* DemoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		7F6B802C2718A5F000D47DE2 /* Street.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Street.swift; sourceTree = "<group>"; };
-		7F6B802E2718B25900D47DE2 /* StreetTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StreetTableViewCell.swift; sourceTree = "<group>"; };
+		7F6B802E2718B25900D47DE2 /* TableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TableViewCell.swift; sourceTree = "<group>"; };
 		7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DemoTableViewCell.swift; sourceTree = "<group>"; };
 		7FDBCBDF27299F7D0004DAE7 /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
+		7FDBCBE1272AD3800004DAE7 /* ImagesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagesViewController.swift; sourceTree = "<group>"; };
+		7FDBCBE3272AF4B80004DAE7 /* ConstantsImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConstantsImage.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -78,6 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				7F101AF827200D9500BAE787 /* Constants.swift */,
+				7FDBCBE3272AF4B80004DAE7 /* ConstantsImage.swift */,
 			);
 			path = Constants;
 			sourceTree = "<group>";
@@ -162,8 +167,8 @@
 			children = (
 				7F6B8029271880BD00D47DE2 /* DemoViewController.swift */,
 				7F6B80312718B2DD00D47DE2 /* DemoTableViewCell.swift */,
-				7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */,
 				7F101AE3271ACCB600BAE787 /* DemoCollectionViewCell.swift */,
+				7F101AE5271D780900BAE787 /* DemoImagesViewController.swift */,
 			);
 			path = demo;
 			sourceTree = "<group>";
@@ -172,8 +177,9 @@
 			isa = PBXGroup;
 			children = (
 				7F6B8005271861AE00D47DE2 /* ViewController.swift */,
-				7F6B802E2718B25900D47DE2 /* StreetTableViewCell.swift */,
+				7F6B802E2718B25900D47DE2 /* TableViewCell.swift */,
 				7FDBCBDF27299F7D0004DAE7 /* CollectionViewCell.swift */,
+				7FDBCBE1272AD3800004DAE7 /* ImagesViewController.swift */,
 			);
 			path = Main;
 			sourceTree = "<group>";
@@ -269,11 +275,13 @@
 				7F6B8006271861AE00D47DE2 /* ViewController.swift in Sources */,
 				7F101AE6271D780900BAE787 /* DemoImagesViewController.swift in Sources */,
 				7F6B8002271861AE00D47DE2 /* AppDelegate.swift in Sources */,
-				7F6B802F2718B25900D47DE2 /* StreetTableViewCell.swift in Sources */,
+				7F6B802F2718B25900D47DE2 /* TableViewCell.swift in Sources */,
 				7F101AF6271F39ED00BAE787 /* FirebaseDatabaseProject.swift in Sources */,
 				7F101AE4271ACCB600BAE787 /* DemoCollectionViewCell.swift in Sources */,
 				7F101AF4271F384900BAE787 /* FirebaseStorageProject.swift in Sources */,
 				7F6B8004271861AE00D47DE2 /* SceneDelegate.swift in Sources */,
+				7FDBCBE2272AD3810004DAE7 /* ImagesViewController.swift in Sources */,
+				7FDBCBE4272AF4B80004DAE7 /* ConstantsImage.swift in Sources */,
 				7F6B802D2718A5F000D47DE2 /* Street.swift in Sources */,
 				7FDBCBE027299F7D0004DAE7 /* CollectionViewCell.swift in Sources */,
 				7F6B80322718B2DD00D47DE2 /* DemoTableViewCell.swift in Sources */,

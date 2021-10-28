@@ -63,11 +63,6 @@ struct Images {
     let title: String
     var pick: Bool = false
     
-    init(image: UIImage){
-        self.title = "demoTitle"
-        self.url = "demoUrl"
-    }
-    
     init(title: String, url: String){
         self.title = title
         self.url = url

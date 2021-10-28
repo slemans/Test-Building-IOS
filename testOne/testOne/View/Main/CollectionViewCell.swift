@@ -6,16 +6,26 @@
 //
 
 import UIKit
+         
+protocol DelegatDeleteCollectionsViewCell: AnyObject {
+    func deleteCollectionsViewCell(index: Int, title: String)
+}
+
 
 class CollectionViewCell: UICollectionViewCell {
-
-
+    weak var delegate: DelegatDeleteCollectionsViewCell?
     let colorButoonDelete: UIColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
     var indexCollectionViewCell: Int!
     var nameCollectionViewCell: String!
-
-
-
+    
+    
+    
+//    let imageDelete: UIImage? = {
+//        let largeConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .regular, scale: .medium)
+//        let image = UIImage(systemName: "multiply", withConfiguration: largeConfig)
+//        return image
+//    }()
+    
     let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.translatesAutoresizingMaskIntoConstraints = false
@@ -27,12 +37,16 @@ class CollectionViewCell: UICollectionViewCell {
     let showCaseImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
+        imageView.layer.masksToBounds = true
+        imageView.layer.cornerRadius = 10
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
 
     let buttonDelete: UIButton = {
         let button = UIButton()
+        button.tintColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
+        button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1, constant: 0)])
         button.backgroundColor = UIColor.white
         button.clipsToBounds = true
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -50,14 +64,18 @@ class CollectionViewCell: UICollectionViewCell {
         super.init(frame: frame)
         initialize()
     }
-
+    @objc func buttonDeleteImageAction(_ sender: UIButton) {
+        buttonDelete.setImage(ConstantsImage.imageDelete, for: .normal)
+        delegate?.deleteCollectionsViewCell(index: indexCollectionViewCell, title: nameCollectionViewCell)
+    }
+    
     func initialize() {
+        buttonDelete.addTarget(self, action: #selector(buttonDeleteImageAction(_:)), for: .touchUpInside)
         buttonDelete.isHidden = true
         contentView.addSubview(showCaseImageView)
         contentView.addSubview(buttonDelete)
         contentView.addSubview(indicator)
 
-        contentView.layer.cornerRadius = 10
         
         showCaseImageView.frame.contains(CGRect(x: 0, y: 0, width: contentView.frame.size.width, height: contentView.frame.size.width))
         NSLayoutConstraint.activate([
@@ -65,14 +83,10 @@ class CollectionViewCell: UICollectionViewCell {
             buttonDelete.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -12),
             indicator.centerXAnchor.constraint(equalTo: contentView.centerXAnchor),
             indicator.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
-
-
-//            showCaseImageView.heightAnchor.constraint(equalToConstant: 128),
-//            showCaseImageView.widthAnchor.constraint(equalToConstant: 128)
-//            showCaseImageView.heightAnchor.constraint(equalToConstant: contentView.bounds.height),
-//            showCaseImageView.widthAnchor.constraint(equalToConstant: contentView.bounds.width)
-
-
+            showCaseImageView.leftAnchor.constraint(equalTo: contentView.leftAnchor),
+            showCaseImageView.rightAnchor.constraint(equalTo: contentView.rightAnchor),
+            showCaseImageView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            showCaseImageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
             ])
     }
     func configure(images: Images?) {
@@ -97,5 +111,6 @@ class CollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
 }

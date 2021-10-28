@@ -8,13 +8,28 @@
 import UIKit
 
 protocol DelegatReturnTables: AnyObject {
-    func returnTableReview(index: Int, street: Street)
+    func returnTableReviews(index: Int, street: Street)
+    func deleteImageWithtables(index: Int, nameCell: [String])
+    func openImages(images: String?)
 }
 
-class StreetTableViewCell: UITableViewCell {
+class TableViewCell: UITableViewCell {
     
-    
-    var stackViewOne = UIStackView()
+    var stackViewOne: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.distribution = .fill
+        stackView.alignment = .fill
+        stackView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        stackView.spacing = 0
+        stackView.contentMode = .scaleToFill
+        stackView.semanticContentAttribute = .unspecified
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.layer.cornerRadius = 20
+        stackView.layer.shadowColor = #colorLiteral(red: 0.3803921569, green: 0.4156862745, blue: 0.4156862745, alpha: 1)
+        return stackView
+    }()
+
     let stackViewTwo = UIStackView()
     let stackViewTree = UIStackView()
     let stackViewFour = UIStackView()
@@ -22,9 +37,10 @@ class StreetTableViewCell: UITableViewCell {
     
     var oneIsStreet: Street!
     var indexStreet: Int!
+    var arrayNameImages: [String] = []
     weak var delegate: DelegatReturnTables?
     
-    private let collectionView: UICollectionView = {
+     let collectionView: UICollectionView = {
         let viewLayout = UICollectionViewFlowLayout()
         let collectionView = UICollectionView(frame: .zero, collectionViewLayout: viewLayout)
         collectionView.backgroundColor = #colorLiteral(red: 0.9294117647, green: 0.9529411765, blue: 0.9568627451, alpha: 1)
@@ -42,7 +58,6 @@ class StreetTableViewCell: UITableViewCell {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1, constant: 0)])
         button.layer.cornerRadius = 20
-//        button.addTarget(self, action: #selector(addNewPhoto(_:)), for: .touchUpInside)
         return button
     }()
     
@@ -65,7 +80,6 @@ class StreetTableViewCell: UITableViewCell {
         button.titleLabel!.textAlignment = .center
         button.layer.cornerRadius = 20
         button.heightAnchor.constraint(equalToConstant: 42).isActive = true
-        button.addTarget(self, action: #selector(pressedDeleteAll(_:)), for: .touchUpInside)
         return button
     }()
 
@@ -74,25 +88,48 @@ class StreetTableViewCell: UITableViewCell {
         self.initialize()
     }
 
-    required init?(coder aDecoder: NSCoder) {
-        super.init(coder: aDecoder)
-        self.initialize()
-    }
-
-    @objc func pressedDeleteAll(_ sender: UIButton) {
-        print("Удалить все фото")
+    @objc func editingTextFielAct(_ sender: UITextField) {
+        if sender.text?.count ?? 0 >= 1, let text = sender.text {
+            oneIsStreet.ref?.updateChildValues(["lable": text])
+        }
     }
     
     @objc func addNewPhoto(_ sender: UIButton) {
-        delegate?.returnTableReview(index: indexStreet, street: oneIsStreet)
+        delegate?.returnTableReviews(index: indexStreet, street: oneIsStreet)
+    }
+
+    @objc func handleLongPress(gesture: UILongPressGestureRecognizer!) {
+        if gesture.state != .ended {
+            return
+        }
+        buttonDelete.isHidden = false
+        collectionView.reloadData()
+    }
+    
+    @objc func pressedDeleteAll(_ sender: UIButton) {
+        buttonDelete.isHidden = true
+        if oneIsStreet.arrayImage.count == 0 {
+            stackViewFive.isHidden = true
+        }
+        delegate?.deleteImageWithtables(index: indexStreet, nameCell: arrayNameImages)
+        arrayNameImages.removeAll()
+        collectionView.reloadData()
     }
     
     
     func initialize() {
+        textFieldMain.addTarget(self, action: #selector(editingTextFielAct(_:)), for: .editingDidEnd)
+        buttonDelete.addTarget(self, action: #selector(pressedDeleteAll(_:)), for: .touchUpInside)
         buttonAddPhoto.addTarget(self, action: #selector(addNewPhoto(_:)), for: .touchUpInside)
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.dataSource = self
         collectionView.delegate = self
+        
+        // long press
+        let longPressedGesture = UILongPressGestureRecognizer(target: self, action: #selector(handleLongPress))
+        longPressedGesture.minimumPressDuration = 1.0
+        longPressedGesture.delegate = self
+        self.collectionView.addGestureRecognizer(longPressedGesture)
         
         /// четвертый стек
         
@@ -172,25 +209,10 @@ class StreetTableViewCell: UITableViewCell {
         stackViewTwo.layer.shadowRadius = 6.0
         stackViewTwo.layer.cornerRadius = 20
         
-        // первый стек
-        stackViewOne.addArrangedSubview(stackViewTwo)
-        stackViewOne.axis = .vertical
-        stackViewOne.distribution = .fill
-        stackViewOne.alignment = .fill
-        stackViewOne.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
-        stackViewOne.spacing = 0
-        stackViewOne.contentMode = .scaleToFill
-        stackViewOne.semanticContentAttribute = .unspecified
-        stackViewOne.translatesAutoresizingMaskIntoConstraints = false
-        stackViewOne.layer.cornerRadius = 20
-        stackViewOne.layer.shadowColor = #colorLiteral(red: 0.3803921569, green: 0.4156862745, blue: 0.4156862745, alpha: 1)
-        
-        
-
-        
-        
+ 
         contentView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
         contentView.addSubview(stackViewOne)
+        stackViewOne.addArrangedSubview(stackViewTwo)
         contentView.addSubview(buttonDelete)
         settingButtonDeleteAll()
         NSLayoutConstraint.activate([
@@ -198,7 +220,7 @@ class StreetTableViewCell: UITableViewCell {
             stackViewOne.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             stackViewOne.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             stackViewOne.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -25),
-            stackViewFive.heightAnchor.constraint(equalToConstant: 125),
+            stackViewFive.heightAnchor.constraint(equalToConstant: 115),
             buttonAddPhoto.heightAnchor.constraint(equalToConstant: 42),
             stackViewFour.heightAnchor.constraint(equalToConstant: 45),
             buttonAddPhoto.rightAnchor.constraint(equalTo: stackViewFourOne.rightAnchor),
@@ -226,10 +248,13 @@ class StreetTableViewCell: UITableViewCell {
         buttonDelete.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: -120).isActive = true
         buttonDelete.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: 10).isActive = true
     }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }
 
 
-extension StreetTableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
+extension TableViewCell: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         return oneIsStreet.arrayImage.count
     }
@@ -239,36 +264,35 @@ extension StreetTableViewCell: UICollectionViewDataSource, UICollectionViewDeleg
         
         let imageStreet = oneIsStreet.arrayImage[indexPath.row]
         cell.configure(images: imageStreet)
-//        cell.delegate = self
+        cell.delegate = self
         if buttonDelete.isHidden == false {
             cell.buttonDelete.isHidden = false
         } else {
             cell.buttonDelete.isHidden = true
         }
         if imageStreet?.pick != true {
-            cell.buttonDelete.setTitle("", for: .normal)
+            cell.buttonDelete.setImage(ConstantsImage.imageDeleteEmpty, for: .normal)
         } else {
-            cell.buttonDelete.setTitle("x", for: .normal)
+            cell.buttonDelete.setImage(ConstantsImage.imageDelete, for: .normal)
         }
         cell.indexCollectionViewCell = indexPath.row
-        cell.nameCollectionViewCell = imageStreet?.title
+        cell.nameCollectionViewCell = imageStreet?.title      
         return cell
     }
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let image = oneIsStreet.arrayImage[indexPath.row]?.url
-        //        delegate?.openImage(images: image)
+        delegate?.openImages(images: image)
     }
     
     
 }
 
-extension StreetTableViewCell: UICollectionViewDelegateFlowLayout {
+extension TableViewCell: UICollectionViewDelegateFlowLayout {
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
         let itemPerRow: CGFloat = 3.0
         let padding = 5 * (itemPerRow + 2.0)
         let availableWidth = collectionView.frame.width - padding
         let widthPerItem = availableWidth / itemPerRow
-//        let height = CGFloat(125)
         let height = widthPerItem
         return CGSize(width: widthPerItem, height: height)
     }
@@ -280,5 +304,22 @@ extension StreetTableViewCell: UICollectionViewDelegateFlowLayout {
     }
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         return 0
+    }
+}
+
+extension TableViewCell: DelegatDeleteCollectionsViewCell {
+    func deleteCollectionsViewCell(index: Int, title: String) {
+        if oneIsStreet.arrayImage[index]?.pick != true {
+            oneIsStreet.arrayImage[index]?.pick = true
+            arrayNameImages.append(oneIsStreet.arrayImage[index]!.title) // добавил title  в новый массив
+        } else {
+            oneIsStreet.arrayImage[index]?.pick = false
+            for (indexArray, value) in arrayNameImages.enumerated() {
+                if value == title {
+                    arrayNameImages.remove(at: indexArray)
+                    collectionView.reloadData()
+                }
+            }
+        }
     }
 }

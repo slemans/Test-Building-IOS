@@ -15,31 +15,29 @@ class ViewController: UIViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
         tableView.rowHeight = UITableView.automaticDimension
-        tableView.register(StreetTableViewCell.self, forCellReuseIdentifier: "contactCell")
+        tableView.register(TableViewCell.self, forCellReuseIdentifier: "contactCell")
         return tableView
     }()
     let buttonAddCell: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle(("+"), for: .normal)
+        let largeConfig = UIImage.SymbolConfiguration(pointSize: 55, weight: .regular, scale: .large)
+        let image = UIImage(systemName: "plus.circle.fill", withConfiguration: largeConfig)
+        button.setImage(image, for: .normal)
+        button.tintColor = .black
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .black
-        button.tintColor = .white
-        button.titleLabel!.font = UIFont(name: "Arial", size: 60)
-        button.titleLabel!.textAlignment = .center
+        button.addConstraints([NSLayoutConstraint(item: button, attribute: .height, relatedBy: .equal, toItem: button, attribute: .width, multiplier: 1, constant: 0)])
+        button.layer.cornerRadius = 20
         button.heightAnchor.constraint(equalToConstant: 70).isActive = true
         button.widthAnchor.constraint(equalToConstant: 70).isActive = true
-        button.layer.cornerRadius = 70 / 2.0
-        button.addTarget(self, action: #selector(pressed(_:)), for: .touchUpInside)
         return button
     }()
-    
+
     let viewTop: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
 
-    // cancel demo
 
     var arrayStreet: [Street] = []
     var indexCellWherePutImages: Int?
@@ -49,10 +47,8 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         startSetting()
-        
-        
     }
-    
+
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         FirebaseDatabaseProject.ref.observe(.value) { [weak self] snapshot in
@@ -70,27 +66,6 @@ class ViewController: UIViewController {
         super.viewWillDisappear(animated)
         FirebaseDatabaseProject.ref.removeAllObservers()
     }
-    
-    
-    private func startSetting() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
-        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        tableView.separatorStyle = .none
-        
-        view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
-        view.addSubview(viewTop)
-        setupViewTop()
-        view.addSubview(tableView)
-        setupTableView()
-        
-        view.addSubview(buttonAddCell)
-        setupButton()
-    }
-    
-    
 
     @objc func pressed(_ sender: UIButton) {
         let newStreetTask = Street(lable: "Название локации")
@@ -98,7 +73,13 @@ class ViewController: UIViewController {
         let newSteet = FirebaseDatabaseProject.ref.child("location\(arrayStreet.count)")
         newSteet.setValue(newStreetTask.convertStreetDictionary())
     }
-    
+
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if let ImagesVC = segue.destination as? ImagesViewController {
+            ImagesVC.imageUrl = sender as? String
+        }
+    }
+
     func uploadImageFireStorege(photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
         let storeRef = store.reference().child("photo").child(GetDate.time)
         guard let data = photo.jpegData(compressionQuality: 0.4) else { return }
@@ -127,7 +108,7 @@ class ViewController: UIViewController {
         tableView.topAnchor.constraint(equalTo: viewTop.bottomAnchor).isActive = true
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
-   
+
     // кнопка addCell
     func setupButton() {
         buttonAddCell.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25).isActive = true
@@ -149,11 +130,28 @@ class ViewController: UIViewController {
         labelTop.text = "ЛОКАЦИИ"
         labelTop.textAlignment = .center
         labelTop.textColor = #colorLiteral(red: 0.1294117647, green: 0.1254901961, blue: 0.1254901961, alpha: 1)
-        labelTop.font = UIFont(name: "Oswald-Regular", size: 40)
+        labelTop.font = UIFont(name: "Oswald-Regular", size: 37)
         labelTop.translatesAutoresizingMaskIntoConstraints = false
         viewTop.addSubview(labelTop)
         labelTop.centerYAnchor.constraint(equalTo: viewTop.centerYAnchor).isActive = true
         labelTop.centerXAnchor.constraint(equalTo: viewTop.centerXAnchor).isActive = true
+    }
+    private func startSetting() {
+        buttonAddCell.addTarget(self, action: #selector(pressed(_:)), for: .touchUpInside)
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        tableView.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        tableView.separatorInset = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        tableView.separatorStyle = .none
+
+        view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        view.addSubview(viewTop)
+        setupViewTop()
+        view.addSubview(tableView)
+        setupTableView()
+        view.addSubview(buttonAddCell)
+        setupButton()
     }
 }
 
@@ -163,32 +161,43 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
     }
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! StreetTableViewCell
-        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "contactCell", for: indexPath) as! TableViewCell
         cell.delegate = self
         cell.indexStreet = indexPath.row
         let street = arrayStreet[indexPath.row]
         cell.oneIsStreet = street
         cell.textFieldMain.placeholder = street.lable
-        
         if street.arrayImage.count >= 1 {
             cell.stackViewFive.isHidden = false
-//            cell.collectionView.reloadData()
+            cell.collectionView.reloadData()
         } else {
             cell.stackViewFive.isHidden = true
-//            cell.collectionView.reloadData()
+            cell.collectionView.reloadData()
         }
         return cell
     }
 }
 
 extension ViewController: DelegatReturnTables {
-    func returnTableReview(index: Int, street: Street) {
+    func openImages(images: String?) {
+        performSegue(withIdentifier: "seguePhoto", sender: images)
+    }
+    func deleteImageWithtables(index: Int, nameCell: [String]) {
+        for title in nameCell {
+            for (_, cell) in arrayStreet[index].arrayImage.enumerated() {
+                if cell?.title == title {
+                    let ref = arrayStreet[index].ref?.child("arrayImage").child(title)
+                    ref?.removeValue { _, _ in }
+                }
+            }
+        }
+    }
+    func returnTableReviews(index: Int, street: Street) {
         indexCellWherePutImages = index
         streetWhyPick = street
         cooseImagePicker(source: .photoLibrary)
     }
-  
+
 }
 
 extension ViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {

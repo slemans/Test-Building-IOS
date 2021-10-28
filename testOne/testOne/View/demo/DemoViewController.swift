@@ -38,8 +38,6 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
             self?.arrayStreet = arrayStreetTwo
             self?.tableView.reloadData()
         }
-        
-
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -51,13 +49,12 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     @IBAction func buttonAc() {
         let newStreetTask = Street(lable: "Название локации")
         arrayStreet.append(newStreetTask)
-        
         // создание новый улицы в firebase
         let newSteet = FirebaseDatabaseProject.ref.child("location\(arrayStreet.count)")
         newSteet.setValue(newStreetTask.convertStreetDictionary())
     }
 
-    // не добавил еще
+
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if let DemoImagesVC = segue.destination as? DemoImagesViewController {
             DemoImagesVC.imageUrl = sender as? String
@@ -65,13 +62,7 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
     }
     
     
-    private func startSetting() {
-        tableView.dataSource = self
-        tableView.delegate = self
-        tableView.tableFooterView = UIView()
-        view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
-        button.layer.cornerRadius = button.frame.size.height / 2
-    }
+    
     
     func uploadImageFireStorege(photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
         let storeRef = store.reference().child("photo").child(GetDate.time)
@@ -92,6 +83,13 @@ class DemoViewController: UIViewController, UIGestureRecognizerDelegate {
                 completion(.success(url))
             }
         }
+    }
+    private func startSetting() {
+        tableView.dataSource = self
+        tableView.delegate = self
+        tableView.tableFooterView = UIView()
+        view.backgroundColor = #colorLiteral(red: 0.9803921569, green: 0.9803921569, blue: 0.9803921569, alpha: 1)
+        button.layer.cornerRadius = button.frame.size.height / 2
     }
 }
 
@@ -176,7 +174,6 @@ extension DemoViewController: UIImagePickerControllerDelegate, UINavigationContr
                 print(error)
             }
         }
-
     }
 }
 
