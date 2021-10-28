@@ -37,8 +37,6 @@ class ViewController: UIViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         return view
     }()
-
-
     var arrayStreet: [Street] = []
     var indexCellWherePutImages: Int?
     var streetWhyPick: Street!
@@ -109,12 +107,11 @@ class ViewController: UIViewController {
         tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
 
-    // кнопка addCell
     func setupButton() {
         buttonAddCell.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -25).isActive = true
         buttonAddCell.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
     }
-    // верхняя часть
+
     func setupViewTop() {
         viewTop.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         viewTop.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -180,7 +177,7 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
 
 extension ViewController: DelegatReturnTables {
     func openImages(images: String?) {
-        performSegue(withIdentifier: "seguePhoto", sender: images)
+        performSegue(withIdentifier: "seguePhotos", sender: images)
     }
     func deleteImageWithtables(index: Int, nameCell: [String]) {
         for title in nameCell {
@@ -193,9 +190,9 @@ extension ViewController: DelegatReturnTables {
         }
     }
     func returnTableReviews(index: Int, street: Street) {
+        cooseImagePicker(source: .photoLibrary)
         indexCellWherePutImages = index
         streetWhyPick = street
-        cooseImagePicker(source: .photoLibrary)
     }
 
 }

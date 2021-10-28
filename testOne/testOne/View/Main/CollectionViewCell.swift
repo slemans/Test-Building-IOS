@@ -11,20 +11,11 @@ protocol DelegatDeleteCollectionsViewCell: AnyObject {
     func deleteCollectionsViewCell(index: Int, title: String)
 }
 
-
 class CollectionViewCell: UICollectionViewCell {
     weak var delegate: DelegatDeleteCollectionsViewCell?
-    let colorButoonDelete: UIColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
+//    let colorButoonDelete: UIColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
     var indexCollectionViewCell: Int!
     var nameCollectionViewCell: String!
-    
-    
-    
-//    let imageDelete: UIImage? = {
-//        let largeConfig = UIImage.SymbolConfiguration(pointSize: 15, weight: .regular, scale: .medium)
-//        let image = UIImage(systemName: "multiply", withConfiguration: largeConfig)
-//        return image
-//    }()
     
     let indicator: UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
@@ -33,7 +24,6 @@ class CollectionViewCell: UICollectionViewCell {
         indicator.startAnimating()
         return indicator
     }()
-
     let showCaseImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
@@ -42,7 +32,6 @@ class CollectionViewCell: UICollectionViewCell {
         imageView.translatesAutoresizingMaskIntoConstraints = false
         return imageView
     }()
-
     let buttonDelete: UIButton = {
         let button = UIButton()
         button.tintColor = #colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1)
@@ -57,8 +46,6 @@ class CollectionViewCell: UICollectionViewCell {
         button.setTitleColor(#colorLiteral(red: 0.8078431373, green: 0.4, blue: 0.4, alpha: 1), for: .normal)
         return button
     }()
-
-
 
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -111,6 +98,4 @@ class CollectionViewCell: UICollectionViewCell {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    
 }

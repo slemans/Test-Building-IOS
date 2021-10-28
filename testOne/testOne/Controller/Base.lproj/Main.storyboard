@@ -21,17 +21,17 @@
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                     </view>
                     <connections>
-                        <segue destination="OlO-1F-fA1" kind="modal" identifier="seguePhoto" id="MX1-Ab-F6X"/>
+                        <segue destination="OlO-1F-fA1" kind="modal" identifier="seguePhotos" id="MX1-Ab-F6X"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="956" y="-715"/>
         </scene>
-        <!--View Controller-->
+        <!--Images View Controller-->
         <scene sceneID="uFB-Nz-AOq">
             <objects>
-                <viewController id="OlO-1F-fA1" sceneMemberID="viewController">
+                <viewController id="OlO-1F-fA1" customClass="ImagesViewController" customModule="testOne" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="TtV-3N-uJS">
                         <rect key="frame" x="0.0" y="0.0" width="428" height="872"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -178,7 +178,6 @@
                                                                                                         <color key="tintColor" red="0.80784313725490198" green="0.40000000000000002" blue="0.40000000000000002" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                                                                         <state key="normal">
                                                                                                             <attributedString key="attributedTitle"/>
-                                                                                                            <imageReference key="image" image="multiply" catalog="system" symbolScale="medium"/>
                                                                                                             <preferredSymbolConfiguration key="preferredSymbolConfiguration" configurationType="pointSize" pointSize="17" scale="default"/>
                                                                                                         </state>
                                                                                                         <connections>
@@ -362,7 +361,6 @@
     </scenes>
     <resources>
         <image name="logo" width="317" height="85"/>
-        <image name="multiply" catalog="system" width="128" height="111"/>
         <image name="plus.circle.fill" catalog="system" width="128" height="121"/>
         <systemColor name="systemBackgroundColor">
             <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>

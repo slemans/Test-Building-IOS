@@ -9,26 +9,18 @@ import UIKit
 import Firebase
 
 struct Street {
+  
+    
     var lable: String
     let ref: DatabaseReference?
     var arrayImage: [Images?]
 
-    // локально
-    init(lable: String, images: [Images]) {
-        self.lable = lable
-        self.ref = nil
-        self.arrayImage = images
-    }
-    //
     init(lable: String) {
         self.lable = lable
         self.ref = nil
         self.arrayImage = []
     }
-    
-    
 
-    // из сети
     init?(snapshot: DataSnapshot) {
         var arrayImageTwo: [Images?] = []
         guard let snapshotValue = snapshot.value as? [String: Any],
@@ -58,7 +50,11 @@ struct Street {
     }
 
 }
-struct Images {
+struct Images: Comparable {
+    static func < (lhs: Images, rhs: Images) -> Bool {
+        return lhs.title < rhs.title
+    }
+    
     let url: String
     let title: String
     var pick: Bool = false
