@@ -18,6 +18,7 @@ UI должен быть полностью аналогичен приведе�
   <li>Firebase</li>
   <li>MVC</li>
   <li>UIImagePicker</li>
+ <li>Anchor</li>
 </ul>
 <h2>Как работает</h2>
 https://disk.yandex.ru/i/z_0utET-1SdyUg
