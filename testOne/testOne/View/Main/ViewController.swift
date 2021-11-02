@@ -80,7 +80,7 @@ class ViewController: UIViewController {
 
     private func uploadImageFireStorege(photo: UIImage, completion: @escaping (Result<URL, Error>) -> Void) {
         let storeRef = store.reference().child(Constants.photoKey).child(GetDate.time)
-        guard let data = photo.jpegData(compressionQuality: NumberCGFloat.zeroFore) else { return }
+        guard let data = photo.jpegData(compressionQuality: 0.3) else { return }
         let metaDate = StorageMetadata()
         metaDate.contentType = "image/jpeg"
 
@@ -166,6 +166,16 @@ extension ViewController: UITableViewDelegate, UITableViewDataSource {
         cell.textFieldMain.placeholder = street.lable
         if street.arrayImage.count >= NumberInt.one {
             cell.stackViewFive.isHidden = false
+            switch street.arrayImage.count {
+            case 4...6:
+                cell.secondSetting(number: 260)
+            case 7...9:
+                cell.secondSetting(number: 390)
+            case 10...12:
+                cell.secondSetting(number: 520)
+            default:
+                cell.secondSetting(number: 130)
+            }
             cell.collectionView.reloadData()
         } else {
             cell.stackViewFive.isHidden = true
@@ -217,6 +227,8 @@ extension ViewController: UIImagePickerControllerDelegate, UINavigationControlle
                 guard let index = self?.indexCellWherePutImages else { return }
                 let newDemoStreet = self?.arrayStreet[index].ref?.child(Constants.arrayImageKey).child("\(GetDate.time)")
                 newDemoStreet?.setValue(newImgTask.convertStreetDictionary())
+//                self?.arrayStreet[index].arrayImage.append(newImgTask)
+//                self?.tableView.reloadData()
             case .failure(let error):
                 print(error)
             }

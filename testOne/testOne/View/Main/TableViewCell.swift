@@ -136,7 +136,7 @@ class TableViewCell: UITableViewCell {
         return textField
     }()
 
-     let buttonDelete: UIButton = {
+    let buttonDelete: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle(("Удалить"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -149,6 +149,10 @@ class TableViewCell: UITableViewCell {
         return button
     }()
 
+    func secondSetting(number: CGFloat) {
+        stackViewFive.heightAnchor.constraint(equalToConstant: number).isActive = true
+//        collectionView.reloadData()
+    }
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         self.initialize()
@@ -207,12 +211,14 @@ class TableViewCell: UITableViewCell {
         stackViewFive.addArrangedSubview(collectionView)
         contentView.addSubview(buttonDelete)
         settingButtonDeleteAll()
+
+
         NSLayoutConstraint.activate([
             stackViewOne.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackViewOne.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             stackViewOne.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             stackViewOne.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: NumberCGFloat.twentyFiveMinus),
-            stackViewFive.heightAnchor.constraint(equalToConstant: 130), // height all block
+//            stackViewFive.heightAnchor.constraint(equalToConstant: heightStackViewFour ?? 0), // height all block
             buttonAddPhoto.heightAnchor.constraint(equalToConstant: NumberCGFloat.two),
             stackViewFour.heightAnchor.constraint(equalToConstant: NumberCGFloat.fortyFive),
             buttonAddPhoto.rightAnchor.constraint(equalTo: stackViewFourOne.rightAnchor),
@@ -238,8 +244,11 @@ class TableViewCell: UITableViewCell {
         buttonDelete.rightAnchor.constraint(equalTo: contentView.rightAnchor, constant: NumberCGFloat.oneHundredTwentyMinus).isActive = true
         buttonDelete.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: NumberCGFloat.ten).isActive = true
     }
+//    required init?(coder aDecoder: NSCoder) {
+//        fatalError("init(coder:) has not been implemented")
+//    }
     required init?(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        super.init(coder: aDecoder)
     }
 }
 
