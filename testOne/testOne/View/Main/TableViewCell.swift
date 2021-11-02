@@ -212,7 +212,7 @@ class TableViewCell: UITableViewCell {
             stackViewOne.leftAnchor.constraint(equalTo: contentView.leftAnchor),
             stackViewOne.rightAnchor.constraint(equalTo: contentView.rightAnchor),
             stackViewOne.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: NumberCGFloat.twentyFiveMinus),
-            stackViewFive.heightAnchor.constraint(equalToConstant: 260), // height all block
+            stackViewFive.heightAnchor.constraint(equalToConstant: 130), // height all block
             buttonAddPhoto.heightAnchor.constraint(equalToConstant: NumberCGFloat.two),
             stackViewFour.heightAnchor.constraint(equalToConstant: NumberCGFloat.fortyFive),
             buttonAddPhoto.rightAnchor.constraint(equalTo: stackViewFourOne.rightAnchor),
